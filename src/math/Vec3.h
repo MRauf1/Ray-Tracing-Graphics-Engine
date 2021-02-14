@@ -6,10 +6,14 @@
 class Vec3 : public Vec<Vec3> {
 
     private:
-        double data[3];
+        double data_[3];
 
     public:
         Vec3(double data[3]);
+        double x() const;
+        double y() const;
+        double z() const;
+
         Vec3 operator+(const Vec3& otherVec) override;
         Vec3 operator-(const Vec3& otherVec) override;
         Vec3 operator*(const double& otherNum) override;
