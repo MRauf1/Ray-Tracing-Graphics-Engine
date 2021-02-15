@@ -1,6 +1,6 @@
 #define CATCH_CONFIG_MAIN
-#include "catch.hpp"
-#include "../src/math/Vec3.cpp"
+#include "../catch.hpp"
+#include "../../src/math/Vec3.cpp"
 
 TEST_CASE("Test Vec3 constructor") {
     double testData[3] = {1, 2.1, 3.14};
@@ -8,6 +8,14 @@ TEST_CASE("Test Vec3 constructor") {
     REQUIRE(testData[0] == testVec3.x());
     REQUIRE(testData[1] == testVec3.y());
     REQUIRE(testData[2] == testVec3.z());
+}
+
+TEST_CASE("Test Vec3 operator[]") {
+    double testData[3] = {1, 2.1, 3.14};
+    Vec3 testVec3(testData);
+    REQUIRE(testData[0] == testVec3[0]);
+    REQUIRE(testData[1] == testVec3[1]);
+    REQUIRE(testData[2] == testVec3[2]);
 }
 
 TEST_CASE("Test Vec3 addition") {
