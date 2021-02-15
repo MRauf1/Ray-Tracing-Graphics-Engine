@@ -25,4 +25,7 @@ class Vec3 : public Vec<Vec3> {
 
 };
 
+using Point3 = Vec3;
+using Color3 = Vec3;
+
 #endif
