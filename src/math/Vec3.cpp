@@ -12,6 +12,12 @@ Vec3::Vec3(double data[3]) {
     this->data_[2] = data[2];
 }
 
+Vec3::Vec3(double x, double y, double z) {
+    this->data_[0] = x;
+    this->data_[1] = y;
+    this->data_[2] = z;
+}
+
 double Vec3::x() const {
     return this->data_[0];
 }

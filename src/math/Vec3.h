@@ -11,6 +11,7 @@ class Vec3 : public Vec<Vec3> {
     public:
         Vec3();
         Vec3(double data[3]);
+        Vec3(double x, double y, double z);
         double x() const;
         double y() const;
         double z() const;
