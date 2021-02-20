@@ -1,7 +1,7 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "math/Vec3.cpp"
+#include "math/Vec3.h"
 
 class Camera {
 

@@ -1,6 +1,6 @@
 #define CATCH_CONFIG_MAIN
 #include "../catch.hpp"
-#include "../../src/math/Ray.cpp"
+#include "../../src/math/Ray.h"
 
 TEST_CASE("Test Ray constructor") {
     double testPointData[3] = {1, 2.1, 3.14};

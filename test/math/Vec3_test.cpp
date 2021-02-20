@@ -59,3 +59,12 @@ TEST_CASE("Test Vec3 division") {
     REQUIRE((testData[1] / divider) == outputVec3.y());
     REQUIRE((testData[2] / divider) == outputVec3.z());
 }
+
+TEST_CASE("Test Vec3 dot") {
+    double testData1[3] = {-1.32, 4.15, 2.54};
+    Vec3 test1Vec3(testData1);
+    double testData2[3] = {1.23, -10.32, 9.8};
+    Vec3 test2Vec3(testData2);
+    double dot = (testData1[0] * testData2[0]) + (testData1[1] * testData2[1]) + (testData1[2] * testData2[2]);
+    REQUIRE(dot == test1Vec3.dot(test2Vec3));
+}
