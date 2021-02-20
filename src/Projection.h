@@ -1,0 +1,4 @@
+enum Projection {
+    PERSPECTIVE,
+    ORTHOGRAPHIC
+};

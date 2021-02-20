@@ -22,7 +22,7 @@ Camera CAMERA(ASPECT_RATIO, VIEWPORT_HEIGHT, FOCAL_LENGTH, POSITION);
 
 
 TEST_CASE("Test World constructor") {
-    World world(BACKGROUND, IMAGE, CAMERA);
+    World world(PERSPECTIVE, BACKGROUND, IMAGE, CAMERA);
     REQUIRE(BACKGROUND[0] == world.background_color()[0]);
     REQUIRE(BACKGROUND[1] == world.background_color()[0]);
     REQUIRE(BACKGROUND[2] == world.background_color()[0]);
@@ -30,7 +30,7 @@ TEST_CASE("Test World constructor") {
 }
 
 TEST_CASE("Test add object") {
-    World world(BACKGROUND, IMAGE, CAMERA);
+    World world(PERSPECTIVE, BACKGROUND, IMAGE, CAMERA);
     Color3 color(0.5, 0.5, 0.5);
     Point3 position(1.0, 0.0, 0.0);
     Vec3 normal(1.0, 0.0, 0.0);
@@ -41,7 +41,7 @@ TEST_CASE("Test add object") {
 }
 
 TEST_CASE("Test hitDetection with no objects") {
-    World world(BACKGROUND, IMAGE, CAMERA);
+    World world(PERSPECTIVE, BACKGROUND, IMAGE, CAMERA);
     Point3 rayPoint(0.0, 0.0, 0.0);
     Vec3 rayDirection(1.0, 1.0, 1.0);
     Ray ray(rayPoint, rayDirection);
@@ -49,7 +49,7 @@ TEST_CASE("Test hitDetection with no objects") {
 }
 
 TEST_CASE("Test hitDetection with object, but no hit") {
-    World world(BACKGROUND, IMAGE, CAMERA);
+    World world(PERSPECTIVE, BACKGROUND, IMAGE, CAMERA);
     Color3 color(0.5, 0.5, 0.5);
     Point3 position(0.0, 0.0, 3.0);
     Vec3 normal(0.0, 0.0, 1.0);
@@ -62,7 +62,7 @@ TEST_CASE("Test hitDetection with object, but no hit") {
 }
 
 TEST_CASE("Test hitDetection with object and hit") {
-    World world(BACKGROUND, IMAGE, CAMERA);
+    World world(PERSPECTIVE, BACKGROUND, IMAGE, CAMERA);
     Color3 color(0.5, 0.5, 0.5);
     Point3 position(0.0, 0.0, -3.0);
     Vec3 normal(0.0, 0.0, 1.0);
@@ -76,7 +76,7 @@ TEST_CASE("Test hitDetection with object and hit") {
 }
 
 TEST_CASE("Test hitDetection with multiple objects and closest hit") {
-    World world(BACKGROUND, IMAGE, CAMERA);
+    World world(PERSPECTIVE, BACKGROUND, IMAGE, CAMERA);
     Color3 color1(0.5, 0.5, 0.5);
     Point3 position1(0.0, 0.0, -3.0);
     Vec3 normal1(0.0, 0.0, 1.0);
@@ -92,4 +92,14 @@ TEST_CASE("Test hitDetection with multiple objects and closest hit") {
     Ray ray(rayPoint, rayDirection);
     REQUIRE(plane2 == world.hitDetection(ray, 0.0, 100.0));
     REQUIRE(2.0 == world.objects()[1]->hitInfo().t);
+}
+
+TEST_CASE("Test render") {
+    World world(PERSPECTIVE, BACKGROUND, IMAGE, CAMERA);
+    Color3 color1(1.0, 0.0, 0.0);
+    Point3 position1(0.0, 0.0, -10.0);
+    Vec3 normal1(0.0, 0.0, 1.0);
+    std::shared_ptr<Object> plane1 = std::make_shared<Plane>(color1, position1, normal1);
+    world.addObject(plane1);
+    world.render(0.0, 100.0);
 }
