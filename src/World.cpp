@@ -36,6 +36,7 @@ void World::addObject(std::shared_ptr<Object> object) {
 }
 
 Ray World::createRay(int i, int j) {
+    // TODO: May need to modify this because of moveable camera
     double u = double(i) / (this->image_.width() - 1);
     double v = double(j) / (this->image_.height() - 1);
     Vec3 gridInfo = this->camera_.lower_left() + this->camera_.hor_direction() * u + this->camera_.ver_direction() * v;

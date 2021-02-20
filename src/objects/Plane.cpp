@@ -24,7 +24,7 @@ bool Plane::isHit(Ray& ray, double minT, double maxT) {
     bool isHit = ray.direction().dot(this->normal_) != 0;
     double t = ((this->position_ - ray.origin()).dot(this->normal_) / (ray.direction().dot(this->normal_)));
 
-    if(t >= minT && t <= maxT) {
+    if(isHit && t >= minT && t <= maxT) {
         this->hitInfo_.hitpoint = ray.at(t);
         this->hitInfo_.t = t;
         return true;

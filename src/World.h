@@ -8,6 +8,7 @@
 #include "Camera.h"
 #include "objects/Object.h"
 #include "objects/Plane.h"
+#include "objects/Sphere.h"
 #include <vector>
 #include <memory>
 #include <iostream>

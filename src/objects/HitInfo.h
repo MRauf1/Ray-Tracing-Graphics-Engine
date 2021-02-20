@@ -1,3 +1,6 @@
+#ifndef HITINFO_H
+#define HITINFO_H
+
 #include "../math/Vec3.h"
 
 struct HitInfo {
@@ -5,3 +8,5 @@ struct HitInfo {
     Vec3 normal;
     double t;
 };
+
+#endif
