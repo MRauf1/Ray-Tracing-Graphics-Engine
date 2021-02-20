@@ -5,9 +5,10 @@
 #include <memory>
 
 TEST_CASE("Test Plane constructor") {
+    Color3 color(0.5, 0.5, 0.5);
     Point3 position(1.0, 2.0, 3.0);
     Vec3 normal(-1.0, -2.0, -3.0);
-    std::shared_ptr<Object> plane = std::make_shared<Plane>(position, normal);
+    std::shared_ptr<Object> plane = std::make_shared<Plane>(color, position, normal);
     REQUIRE(position[0] == (std::dynamic_pointer_cast<Plane>(plane))->position()[0]);
     REQUIRE(position[1] == (std::dynamic_pointer_cast<Plane>(plane))->position()[1]);
     REQUIRE(position[2] == (std::dynamic_pointer_cast<Plane>(plane))->position()[2]);
@@ -17,9 +18,10 @@ TEST_CASE("Test Plane constructor") {
 }
 
 TEST_CASE("Test Plane hit") {
+    Color3 color(0.5, 0.5, 0.5);
     Point3 position(0.0, 0.0, -3.0);
     Vec3 normal(0.0, 0.0, 1.0);
-    std::shared_ptr<Object> plane = std::make_shared<Plane>(position, normal);
+    std::shared_ptr<Object> plane = std::make_shared<Plane>(color, position, normal);
     Point3 rayPoint(0.0, 0.0, 0.0);
     Vec3 rayDirection(0.0, 0.0, -1.0);
     Ray ray(rayPoint, rayDirection);
@@ -31,9 +33,10 @@ TEST_CASE("Test Plane hit") {
 }
 
 TEST_CASE("Test Plane miss") {
+    Color3 color(0.5, 0.5, 0.5);
     Point3 position(1.0, 0.0, 0.0);
     Vec3 normal(1.0, 0.0, 0.0);
-    std::shared_ptr<Object> plane = std::make_shared<Plane>(position, normal);
+    std::shared_ptr<Object> plane = std::make_shared<Plane>(color, position, normal);
     Point3 rayPoint(0.0, 0.0, 0.0);
     Vec3 rayDirection(0.0, 0.0, -1.0);
     Ray ray(rayPoint, rayDirection);
@@ -41,9 +44,10 @@ TEST_CASE("Test Plane miss") {
 }
 
 TEST_CASE("Test Plane miss because of t") {
+    Color3 color(0.5, 0.5, 0.5);
     Point3 position(0.0, 0.0, 3.0);
     Vec3 normal(0.0, 0.0, 1.0);
-    std::shared_ptr<Object> plane = std::make_shared<Plane>(position, normal);
+    std::shared_ptr<Object> plane = std::make_shared<Plane>(color, position, normal);
     Point3 rayPoint(0.0, 0.0, 0.0);
     Vec3 rayDirection(0.0, 0.0, -1.0);
     Ray ray(rayPoint, rayDirection);

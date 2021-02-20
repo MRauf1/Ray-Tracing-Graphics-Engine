@@ -1,11 +1,13 @@
 #include "Plane.h"
 
 Plane::Plane() {
+    this->color_ = Color3(0.0, 0.0, 0.0);
     this->position_ = Point3(0.0, 0.0, 0.0);
     this->normal_ = Vec3(0.0, 0.0, -1.0);
 }
 
-Plane::Plane(Point3 position, Vec3 normal) {
+Plane::Plane(Color3 color, Point3 position, Vec3 normal) {
+    this->color_ = color;
     this->position_ = position;
     this->normal_ = normal;
 }

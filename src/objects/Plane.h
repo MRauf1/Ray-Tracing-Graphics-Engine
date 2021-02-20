@@ -11,7 +11,7 @@ class Plane : public Object {
 
     public:
         Plane();
-        Plane(Point3 position, Vec3 normal);
+        Plane(Color3 color, Point3 position, Vec3 normal);
         Point3 position() const;
         Vec3 normal() const;
 
