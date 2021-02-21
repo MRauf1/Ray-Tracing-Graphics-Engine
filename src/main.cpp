@@ -10,9 +10,6 @@
 
 int main() {
 
-    // Projection type
-    Projection PROJECTION = PERSPECTIVE;
-
     // Background color
     Color3 BACKGROUND(1.0, 1.0, 1.0);
 
@@ -26,8 +23,14 @@ int main() {
     double VIEWPORT_HEIGHT = 2.0;
     double FOCAL_LENGTH = 1.0;
     Point3 POSITION(0.0, 0.0, 0.0);
+    Vec3 VIEW_DIR(0.0, 0.0, -1.0); // VIEW_DIR and UP_DIR can't be parallel
+    Vec3 UP_DIR(0.0, 1.0, 0.0);
+    Projection PROJECTION = PERSPECTIVE;
 
-    Camera CAMERA(ASPECT_RATIO, VIEWPORT_HEIGHT, FOCAL_LENGTH, POSITION);
+    Camera CAMERA(ASPECT_RATIO, VIEWPORT_HEIGHT, FOCAL_LENGTH, POSITION, VIEW_DIR, UP_DIR, PROJECTION);
+
+    // Create the world
+    World world(BACKGROUND, IMAGE, CAMERA);
 
     // Objects in the scene
     Color3 colorPlane1(1.0, 0.0, 0.0);
@@ -53,9 +56,9 @@ int main() {
     std::shared_ptr<Object> sphere2 = std::make_shared<Sphere>(colorSphere2, positionSphere2, radiusSphere2);
 
     Color3 colorTriangle1(1.0, 0.5, 0.5);
-    Point3 pointTriangle1(1.5, -1.0, -2.0);
-    Point3 pointTriangle2(1.5, 1.0, -2.0);
-    Point3 pointTriangle3(3.0, -1.0, -2.0);
+    Point3 pointTriangle1(1.5, -1.0, -3.0);
+    Point3 pointTriangle2(1.5, 1.0, -3.0);
+    Point3 pointTriangle3(3.0, -1.0, -3.0);
     std::shared_ptr<Object> triangle1 = std::make_shared<Triangle>(colorTriangle1, pointTriangle1, pointTriangle2, pointTriangle3);
 
     // Lights in the scene
@@ -64,8 +67,6 @@ int main() {
     Point3 positionLight2(1.0, 0.0, 0.0);
     std::shared_ptr<PointLight> pointLight2 = std::make_shared<PointLight>(positionLight2);
 
-    // Create the world
-    World world(PROJECTION, BACKGROUND, IMAGE, CAMERA);
     // Add objects to the world
     world.addObject(plane1);
     world.addObject(plane2);

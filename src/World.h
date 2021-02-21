@@ -1,7 +1,6 @@
 #ifndef WORLD_H
 #define WORLD_H
 
-#include "Projection.h"
 #include "math/Vec3.h"
 #include "math/Ray.h"
 #include "image/Image.h"
@@ -19,7 +18,6 @@
 class World {
 
     private:
-        Projection projection_;
         Color3 background_color_;
         Image image_;
         Camera camera_;
@@ -28,8 +26,7 @@ class World {
 
     public:
         World();
-        World(Projection projection_, Color3 background_color, Image image, Camera camera);
-        Projection projection() const;
+        World(Color3 background_color, Image image, Camera camera);
         Color3 background_color() const;
         Image image() const;
         Camera camera() const;

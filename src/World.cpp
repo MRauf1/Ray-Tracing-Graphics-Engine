@@ -1,18 +1,13 @@
 #include "World.h"
 
 World::World() {
-    this->projection_ = PERSPECTIVE;
+
 }
 
-World::World(Projection projection, Color3 background_color, Image image, Camera camera) {
-    this->projection_ = projection;
+World::World(Color3 background_color, Image image, Camera camera) {
     this->background_color_ = background_color;
     this->image_ = image;
     this->camera_ = camera;
-}
-
-Projection World::projection() const {
-    return this->projection_;
 }
 
 Color3 World::background_color() const {
@@ -41,21 +36,6 @@ void World::addObject(std::shared_ptr<Object> object) {
 
 void World::addLight(std::shared_ptr<PointLight> light) {
     this->lights_.push_back(light);
-}
-
-Ray World::createRay(int i, int j) {
-    // TODO: May need to modify this because of moveable camera
-    double u = double(i) / (this->image_.width() - 1);
-    double v = double(j) / (this->image_.height() - 1);
-    Vec3 gridInfo = this->camera_.lower_left() + this->camera_.hor_direction() * u + this->camera_.ver_direction() * v;
-    if(this->projection_ == PERSPECTIVE) {
-        Ray ray(this->camera_.position(), gridInfo);
-        return ray;
-    } else if(this->projection_ == ORTHOGRAPHIC) {
-        Vec3 direction(0.0, 0.0, -1.0);
-        Ray ray(gridInfo, direction);
-        return ray;
-    }
 }
 
 std::shared_ptr<Object> World::hitDetection(Ray& ray, double minT, double maxT) {
@@ -105,7 +85,7 @@ void World::render(double minT, double maxT) {
     for(int j = height - 1; j >= 0; j--) {
         std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
         for(int i = 0; i < width; i++) {
-            Ray ray = this->createRay(i, j);
+            Ray ray = this->camera_.createRay(double(i) / (width - 1), double(j) / (height - 1));
             std::shared_ptr<Object> hitObject = this->hitDetection(ray, minT, maxT);
             if(hitObject == nullptr) {
                 this->background_color_.write_data(std::cout);
