@@ -1,6 +1,7 @@
 #define CATCH_CONFIG_MAIN
 #include "../catch.hpp"
-#include "../../src/math/Vec3.cpp"
+#include "../../src/math/Vec3.h"
+#include <cmath>
 
 TEST_CASE("Test Vec3 constructor") {
     double testData[3] = {1, 2.1, 3.14};
@@ -67,4 +68,23 @@ TEST_CASE("Test Vec3 dot") {
     Vec3 test2Vec3(testData2);
     double dot = (testData1[0] * testData2[0]) + (testData1[1] * testData2[1]) + (testData1[2] * testData2[2]);
     REQUIRE(dot == test1Vec3.dot(test2Vec3));
+}
+
+TEST_CASE("Test Vec3 magnitude") {
+    double testData[3] = {-1.32, 4.15, 2.54};
+    Vec3 testVec3(testData);
+    double dot = (testData[0] * testData[0]) + (testData[1] * testData[1]) + (testData[2] * testData[2]);
+    double magnitude = std::sqrt(dot);
+    REQUIRE(magnitude == testVec3.magnitude());
+}
+
+TEST_CASE("Test Vec3 normalize") {
+    double testData[3] = {-1.32, 4.15, 2.54};
+    Vec3 testVec3(testData);
+    double dot = (testData[0] * testData[0]) + (testData[1] * testData[1]) + (testData[2] * testData[2]);
+    double magnitude = std::sqrt(dot);
+    Vec3 outputVec3 = testVec3 / magnitude;
+    REQUIRE(outputVec3[0] == testVec3.normalize()[0]);
+    REQUIRE(outputVec3[1] == testVec3.normalize()[1]);
+    REQUIRE(outputVec3[2] == testVec3.normalize()[2]);
 }

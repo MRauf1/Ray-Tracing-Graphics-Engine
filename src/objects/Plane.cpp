@@ -26,6 +26,7 @@ bool Plane::isHit(Ray& ray, double minT, double maxT) {
 
     if(isHit && t >= minT && t <= maxT) {
         this->hitInfo_.hitpoint = ray.at(t);
+        this->hitInfo_.normal = this->normal_;
         this->hitInfo_.t = t;
         return true;
     }

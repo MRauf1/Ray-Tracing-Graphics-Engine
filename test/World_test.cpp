@@ -94,12 +94,28 @@ TEST_CASE("Test hitDetection with multiple objects and closest hit") {
     REQUIRE(2.0 == world.objects()[1]->hitInfo().t);
 }
 
-TEST_CASE("Test render") {
-    World world(PERSPECTIVE, BACKGROUND, IMAGE, CAMERA);
-    Color3 color1(1.0, 0.0, 0.0);
-    Point3 position1(0.0, 0.0, -10.0);
-    Vec3 normal1(0.0, 0.0, 1.0);
-    std::shared_ptr<Object> plane1 = std::make_shared<Plane>(color1, position1, normal1);
-    world.addObject(plane1);
-    world.render(0.0, 100.0);
-}
+// TEST_CASE("Test litColor") {
+//     World world(PERSPECTIVE, BACKGROUND, IMAGE, CAMERA);
+//     Color3 color1(1.0, 0.0, 0.0);
+//     Point3 position1(0.0, 0.0, -10.0);
+//     Vec3 normal1(0.0, 0.0, 1.0);
+//     std::shared_ptr<Object> plane1 = std::make_shared<Plane>(color1, position1, normal1);
+//     world.addObject(plane1);
+//     Point3 positionLight1(-1.0, 0.0, 0.0);
+//     std::shared_ptr<PointLight> pointLight1 = std::make_shared<PointLight>(positionLight1);
+//     world.addLight(pointLight1);
+//     Color3 outputColor = world.litColor(plane1);
+//     std::cout << outputColor[0] << std::endl;
+//     std::cout << outputColor[1] << std::endl;
+//     std::cout << outputColor[2] << std::endl;
+// }
+
+// TEST_CASE("Test render") {
+//     World world(PERSPECTIVE, BACKGROUND, IMAGE, CAMERA);
+//     Color3 color1(1.0, 0.0, 0.0);
+//     Point3 position1(0.0, 0.0, -10.0);
+//     Vec3 normal1(0.0, 0.0, 1.0);
+//     std::shared_ptr<Object> plane1 = std::make_shared<Plane>(color1, position1, normal1);
+//     world.addObject(plane1);
+//     world.render(0.0, 100.0);
+// }

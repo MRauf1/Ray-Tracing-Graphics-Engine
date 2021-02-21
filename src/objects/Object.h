@@ -1,6 +1,7 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 
+#include "../math/Vec3.h"
 #include "../math/Ray.h"
 #include "HitInfo.h"
 

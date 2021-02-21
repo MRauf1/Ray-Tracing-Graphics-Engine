@@ -31,8 +31,16 @@ std::vector<std::shared_ptr<Object>> World::objects() const {
     return this->objects_;
 }
 
+std::vector<std::shared_ptr<PointLight>> World::lights() const {
+    return this->lights_;
+}
+
 void World::addObject(std::shared_ptr<Object> object) {
     this->objects_.push_back(object);
+}
+
+void World::addLight(std::shared_ptr<PointLight> light) {
+    this->lights_.push_back(light);
 }
 
 Ray World::createRay(int i, int j) {
@@ -66,6 +74,27 @@ std::shared_ptr<Object> World::hitDetection(Ray& ray, double minT, double maxT) 
     return closestObject;
 }
 
+Color3 World::litColor(std::shared_ptr<Object> hitObject) {
+    // TODO: Maybe vary intensity based on distance from light
+    if(this->lights_.empty()) {
+        return hitObject->color();
+    }
+
+    Vec3 normalDirection = hitObject->hitInfo().normal.normalize();
+    double proportion = 0.0;
+    for(int i = 0; i < this->lights_.size(); i++) {
+        Point3 hitPoint = hitObject->hitInfo().hitpoint;
+        Ray lightRay = this->lights_[i]->lightDirection(hitPoint);
+        Vec3 lightDirection = lightRay.direction().normalize();
+        double tempProportion = normalDirection.dot(lightDirection);
+        // Use the brightest light to shade a point
+        if(proportion < tempProportion) {
+            proportion = tempProportion;
+        }
+    }
+    return (hitObject->color() * proportion);
+}
+
 void World::render(double minT, double maxT) {
 
     int width = this->image_.width();
@@ -73,19 +102,18 @@ void World::render(double minT, double maxT) {
     std::cout << "P3\n" << width << " " << height << "\n255\n";
 
     for(int j = height - 1; j >= 0; j--) {
-        // std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
+        std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
         for(int i = 0; i < width; i++) {
-            // double u = double(i) / (width - 1);
-            // double v = double(j) / (height - 1);
-            // Ray ray(this->camera_.position(), this->camera_.lower_left() + this->camera_.hor_direction() * u + this->camera_.ver_direction() * v);
             Ray ray = this->createRay(i, j);
             std::shared_ptr<Object> hitObject = this->hitDetection(ray, minT, maxT);
             if(hitObject == nullptr) {
                 this->background_color_.write_data(std::cout);
             } else {
-                hitObject->color().write_data(std::cout);
+                this->litColor(hitObject).write_data(std::cout);
             }
         }
     }
+
+    std::cerr << "\nDone.\n";
 
 }

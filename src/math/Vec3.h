@@ -2,6 +2,7 @@
 #define VEC3_H
 
 #include "Vec.h"
+#include <cmath>
 
 class Vec3 : public Vec<Vec3> {
 
@@ -23,6 +24,8 @@ class Vec3 : public Vec<Vec3> {
         Vec3 operator/(const double& otherNum) override;
 
         double dot(const Vec3& otherVec) override;
+        double magnitude() override;
+        Vec3 normalize() override;
         void write_data(std::ostream& out) override;
 
 };
