@@ -75,7 +75,8 @@ std::shared_ptr<Object> World::hitDetection(Ray& ray, double minT, double maxT) 
 }
 
 Color3 World::litColor(std::shared_ptr<Object> hitObject) {
-    // TODO: Maybe vary intensity based on distance from light
+    // TODO: Maybe vary intensity based on distance from
+    // TODO: For proportions, wouldn't it be more realistic to add them instead of max?
     if(this->lights_.empty()) {
         return hitObject->color();
     }

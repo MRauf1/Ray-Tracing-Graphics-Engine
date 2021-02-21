@@ -42,6 +42,7 @@ int main() {
     Point3 positionPlane3(-10.0, 0.0, -10.0);
     Vec3 normalPlane3(0.5, 0.0, 0.5);
     std::shared_ptr<Object> plane3 = std::make_shared<Plane>(colorPlane3, positionPlane3, normalPlane3);
+
     Color3 colorSphere1(0.0, 1.0, 0.0);
     Point3 positionSphere1(0.0, 0.0, -5.0);
     double radiusSphere1 = 1.0;
@@ -50,6 +51,12 @@ int main() {
     Point3 positionSphere2(-3.0, 0.0, -3.0);
     double radiusSphere2 = 1.0;
     std::shared_ptr<Object> sphere2 = std::make_shared<Sphere>(colorSphere2, positionSphere2, radiusSphere2);
+
+    Color3 colorTriangle1(1.0, 0.5, 0.5);
+    Point3 pointTriangle1(1.5, -1.0, -2.0);
+    Point3 pointTriangle2(1.5, 1.0, -2.0);
+    Point3 pointTriangle3(3.0, -1.0, -2.0);
+    std::shared_ptr<Object> triangle1 = std::make_shared<Triangle>(colorTriangle1, pointTriangle1, pointTriangle2, pointTriangle3);
 
     // Lights in the scene
     Point3 positionLight1(-1.0, 0.0, 0.0);
@@ -65,6 +72,7 @@ int main() {
     world.addObject(plane3);
     world.addObject(sphere1);
     world.addObject(sphere2);
+    world.addObject(triangle1);
     // Add lights to the world
     world.addLight(pointLight1);
     world.addLight(pointLight2);

@@ -9,6 +9,7 @@
 #include "objects/Object.h"
 #include "objects/Plane.h"
 #include "objects/Sphere.h"
+#include "objects/Triangle.h"
 #include "lights/PointLight.h"
 #include <vector>
 #include <memory>

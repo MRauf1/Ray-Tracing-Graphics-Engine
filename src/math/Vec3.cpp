@@ -74,6 +74,13 @@ double Vec3::dot(const Vec3& otherVec) {
     return ((this->data_[0] * otherVec[0]) + (this->data_[1] * otherVec[1]) + (this->data_[2] * otherVec[2]));
 }
 
+Vec3 Vec3::cross(const Vec3& otherVec) {
+    double v1 = this->data_[1] * otherVec[2] - this->data_[2] * otherVec[1];
+    double v2 = this->data_[2] * otherVec[0] - this->data_[0] * otherVec[2];
+    double v3 = this->data_[0] * otherVec[1] - this->data_[1] * otherVec[0];
+    return Vec3(v1, v2, v3);
+}
+
 double Vec3::magnitude() {
     return (std::sqrt((*this).dot((*this))));
 }

@@ -70,6 +70,17 @@ TEST_CASE("Test Vec3 dot") {
     REQUIRE(dot == test1Vec3.dot(test2Vec3));
 }
 
+TEST_CASE("Test Vec3 cross") {
+    double testData1[3] = {2.0, 3.0, 4.0};
+    Vec3 test1Vec3(testData1);
+    double testData2[3] = {5.0, 6.0, 7.0};
+    Vec3 test2Vec3(testData2);
+    Vec3 outputVec3 = test1Vec3.cross(test2Vec3);
+    REQUIRE(-3 == outputVec3[0]);
+    REQUIRE(6 == outputVec3[1]);
+    REQUIRE(-3 == outputVec3[2]);
+}
+
 TEST_CASE("Test Vec3 magnitude") {
     double testData[3] = {-1.32, 4.15, 2.54};
     Vec3 testVec3(testData);
