@@ -74,11 +74,18 @@ Color3 World::litColor(std::shared_ptr<Object> hitObject) {
     Color3 shade(0.0, 0.0, 0.0);
     for(int i = 0; i < this->lights_.size(); i++) {
         Point3 hitPoint = hitObject->hitInfo().hitpoint;
-        Ray lightRay = this->lights_[i]->lightDirection(hitPoint);
-        Vec3 lightDirection = lightRay.direction().normalize();
-        double cosFactor = normalDirection.dot(lightDirection);
-        shade = shade + hitObject->color().elemProduct(this->lights_[i]->color()) * cosFactor;
-        shade.cutToUnit();
+        Ray lightRay = this->lights_[i]->lightDirection(hitPoint, true);
+        std::shared_ptr<Object> shadowObject = this->hitDetection(lightRay, 0.0, 10000.0);
+        if(shadowObject == nullptr || !(shadowObject->hitInfo().t > 0.0 && shadowObject->hitInfo().t < 1.0 )) {
+            Vec3 lightDirection = lightRay.direction().normalize();
+            double cosFactor = normalDirection.dot(lightDirection);
+            shade = shade + hitObject->color().elemProduct(this->lights_[i]->color()) * cosFactor;
+            shade.cutToUnit();
+        }
+        // Vec3 lightDirection = lightRay.direction().normalize();
+        // double cosFactor = normalDirection.dot(lightDirection);
+        // shade = shade + hitObject->color().elemProduct(this->lights_[i]->color()) * cosFactor;
+        // shade.cutToUnit();
     }
     return shade;
 }

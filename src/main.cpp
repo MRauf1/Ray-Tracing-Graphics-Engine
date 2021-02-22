@@ -71,6 +71,9 @@ int main() {
     Point3 positionLight2(1.0, 0.0, 0.0);
     Color3 colorLight2(0.5, 0.5, 0.5);
     std::shared_ptr<PointLight> pointLight2 = std::make_shared<PointLight>(positionLight2, colorLight2);
+    Point3 positionLight3(0.0, 10.0, 0.0);
+    Color3 colorLight3(1.0, 1.0, 1.0);
+    std::shared_ptr<PointLight> pointLight3 = std::make_shared<PointLight>(positionLight3, colorLight3);
 
     // Add objects to the world
     world.addObject(plane1);
@@ -82,6 +85,7 @@ int main() {
     // Add lights to the world
     world.addLight(pointLight1);
     world.addLight(pointLight2);
+    // world.addLight(pointLight3);
 
     // Render the scene
     world.render(0.0, std::numeric_limits<double>::max());

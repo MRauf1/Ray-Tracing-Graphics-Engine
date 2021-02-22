@@ -17,7 +17,12 @@ Color3 PointLight::color() const {
     return this->color_;
 }
 
-Ray PointLight::lightDirection(Point3& point) {
-    Ray ray(point, this->position_ - point);
-    return ray;
+Ray PointLight::lightDirection(Point3& point, bool addEpsilon) {
+    if(addEpsilon) {
+        Vec3 direction(this->position_ - point);
+        double epsilon = 0.00001;
+        return Ray(point + (direction * epsilon), direction);
+    } else {
+        return Ray(point, this->position_ - point);
+    }
 }

@@ -16,7 +16,7 @@ class PointLight {
         Point3 position() const;
         Color3 color() const;
 
-        Ray lightDirection(Point3& point);
+        Ray lightDirection(Point3& point, bool addEpsilon);
 
 };
 
