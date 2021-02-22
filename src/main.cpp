@@ -15,7 +15,7 @@ int main() {
 
     // Image settings
     double ASPECT_RATIO = 16.0 / 9.0;
-    int WIDTH = 256;
+    int WIDTH = 500;
 
     Image IMAGE(ASPECT_RATIO, WIDTH);
 
@@ -29,8 +29,11 @@ int main() {
 
     Camera CAMERA(ASPECT_RATIO, VIEWPORT_HEIGHT, FOCAL_LENGTH, POSITION, VIEW_DIR, UP_DIR, PROJECTION);
 
+    // Number of samples for multijittered sampling
+    int SAMPLES = 16;
+
     // Create the world
-    World world(BACKGROUND, IMAGE, CAMERA);
+    World world(BACKGROUND, IMAGE, CAMERA, SAMPLES);
 
     // Objects in the scene
     Color3 colorPlane1(1.0, 0.0, 0.0);
