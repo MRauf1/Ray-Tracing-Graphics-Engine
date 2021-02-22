@@ -71,18 +71,16 @@ Color3 World::litColor(std::shared_ptr<Object> hitObject) {
     }
 
     Vec3 normalDirection = hitObject->hitInfo().normal.normalize();
-    double proportion = 0.0;
+    Color3 shade(0.0, 0.0, 0.0);
     for(int i = 0; i < this->lights_.size(); i++) {
         Point3 hitPoint = hitObject->hitInfo().hitpoint;
         Ray lightRay = this->lights_[i]->lightDirection(hitPoint);
         Vec3 lightDirection = lightRay.direction().normalize();
-        double tempProportion = normalDirection.dot(lightDirection);
-        // Use the brightest light to shade a point
-        if(proportion < tempProportion) {
-            proportion = tempProportion;
-        }
+        double cosFactor = normalDirection.dot(lightDirection);
+        shade = shade + hitObject->color().elemProduct(this->lights_[i]->color()) * cosFactor;
+        shade.cutToUnit();
     }
-    return (hitObject->color() * proportion);
+    return shade;
 }
 
 void World::render(double minT, double maxT) {

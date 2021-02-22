@@ -70,6 +70,10 @@ Vec3 Vec3::operator/(const double& otherNum) {
     return Vec3(tempData);
 }
 
+Vec3 Vec3::elemProduct(const Vec3& otherVec) {
+    return Vec3(this->data_[0] * otherVec[0], this->data_[1] * otherVec[1],this->data_[2] * otherVec[2]);
+}
+
 double Vec3::dot(const Vec3& otherVec) {
     return ((this->data_[0] * otherVec[0]) + (this->data_[1] * otherVec[1]) + (this->data_[2] * otherVec[2]));
 }
@@ -87,6 +91,12 @@ double Vec3::magnitude() {
 
 Vec3 Vec3::normalize() {
     return ((*this) / ((*this).magnitude()));
+}
+
+void Vec3::cutToUnit() {
+    for(int i = 0; i < 3; i++) {
+        this->data_[i] = this->data_[i] > 1.0 ? 1.0 : this->data_[i];
+    }
 }
 
 void Vec3::write_data(std::ostream& out) {

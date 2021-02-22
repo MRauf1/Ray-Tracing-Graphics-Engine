@@ -8,11 +8,13 @@ class PointLight {
 
     private:
         Point3 position_;
+        Color3 color_;
 
     public:
         PointLight();
-        PointLight(Point3 position);
+        PointLight(Point3 position, Color3 color);
         Point3 position() const;
+        Color3 color() const;
 
         Ray lightDirection(Point3& point);
 

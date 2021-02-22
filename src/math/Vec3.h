@@ -23,10 +23,12 @@ class Vec3 : public Vec<Vec3> {
         Vec3 operator*(const double& otherNum) override;
         Vec3 operator/(const double& otherNum) override;
 
+        Vec3 elemProduct(const Vec3& otherVec) override;
         double dot(const Vec3& otherVec) override;
         Vec3 cross(const Vec3& otherVec) override;
         double magnitude() override;
         Vec3 normalize() override;
+        void cutToUnit() override;
         void write_data(std::ostream& out) override;
 
 };

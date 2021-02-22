@@ -15,7 +15,7 @@ int main() {
 
     // Image settings
     double ASPECT_RATIO = 16.0 / 9.0;
-    int WIDTH = 500;
+    int WIDTH = 256;
 
     Image IMAGE(ASPECT_RATIO, WIDTH);
 
@@ -66,9 +66,11 @@ int main() {
 
     // Lights in the scene
     Point3 positionLight1(-1.0, 0.0, 0.0);
-    std::shared_ptr<PointLight> pointLight1 = std::make_shared<PointLight>(positionLight1);
+    Color3 colorLight1(0.5, 0.5, 0.5);
+    std::shared_ptr<PointLight> pointLight1 = std::make_shared<PointLight>(positionLight1, colorLight1);
     Point3 positionLight2(1.0, 0.0, 0.0);
-    std::shared_ptr<PointLight> pointLight2 = std::make_shared<PointLight>(positionLight2);
+    Color3 colorLight2(0.5, 0.5, 0.5);
+    std::shared_ptr<PointLight> pointLight2 = std::make_shared<PointLight>(positionLight2, colorLight2);
 
     // Add objects to the world
     world.addObject(plane1);
