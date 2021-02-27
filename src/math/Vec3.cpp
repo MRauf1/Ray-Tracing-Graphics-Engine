@@ -100,6 +100,7 @@ void Vec3::cutToUnit() {
 }
 
 void Vec3::write_data(std::ostream& out) {
+    // Following code taken from Peter Shirley's "Ray Tracing in One Weekend"
     out << static_cast<int>(255.999 * this->data_[0]) << " "
         << static_cast<int>(255.999 * this->data_[1]) << " "
         << static_cast<int>(255.999 * this->data_[2]) << "\n";

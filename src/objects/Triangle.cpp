@@ -24,6 +24,7 @@ Point3 Triangle::point3() const {
 }
 
 bool Triangle::isHit(Ray& ray, double minT, double maxT) {
+    // The formulas are from the lecture slides
     Point3 e1 = this->point2_ - this->point1_;
     Point3 e2 = this->point3_ - this->point1_;
     Vec3 q = ray.direction().cross(e2);
@@ -43,17 +44,22 @@ bool Triangle::isHit(Ray& ray, double minT, double maxT) {
     if(v < 0.0 || (u + v) > 1.0) {
         return false;
     }
+    // Check if there is a hit and calcualate t
     bool isHit = true;
     double t = f * (e2.dot(r));
-
+    // If the hit is valid, store the info and return true
     if(isHit && t >= minT && t <= maxT) {
         this->hitInfo_.hitpoint = ray.at(t);
         // Note: slides say e1.cross(e2) for normal, but that gives normal
         // in the reverse direction, but e2.cross(e1)
         // Bug or not? Need to figure out
+        // Answer to above: appropriate normal depends on what order the
+        // vertices are inputted in
+        // TODO: Try to regulate it to avoid issues
         this->hitInfo_.normal = e2.cross(e1);
         this->hitInfo_.t = t;
         return true;
     }
+    // Otherwise, return false
     return false;
 }

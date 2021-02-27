@@ -21,19 +21,23 @@ double Sphere::radius() const {
 }
 
 bool Sphere::isHit(Ray& ray, double minT, double maxT) {
+    // The formulas are from Peter Shirley's "Ray Tracing in One Weekend"
     Vec3 ac = ray.origin() - this->center_;
     double a = ray.direction().dot(ray.direction());
     double b = 2.0 * ray.direction().dot(ac);
     double c = ac.dot(ac) - (this->radius_ * this->radius_);
     double discriminant = b * b - 4.0 * a * c;
-    bool isHit = discriminant > 0;
+    // Check if there is a hit and calcualate t
+    // USE THE OPTIMIZATION DISCUSSED IN LECTURES
+    bool isHit = discriminant > 0; // SHOULD BE >= 0
     double t = isHit ? (-b - std::sqrt(discriminant)) / (2.0 * a) : -1.0;
-
+    // If the hit is valid, store the info and return true
     if(isHit && t >= minT && t <= maxT) {
         this->hitInfo_.hitpoint = ray.at(t);
         this->hitInfo_.normal = this->hitInfo_.hitpoint - this->center_;
         this->hitInfo_.t = t;
         return true;
     }
+    // Otherwise, return false
     return false;
 }

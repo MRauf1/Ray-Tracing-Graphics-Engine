@@ -21,14 +21,16 @@ Vec3 Plane::normal() const {
 }
 
 bool Plane::isHit(Ray& ray, double minT, double maxT) {
+    // Check if there is a hit and calculate t
     bool isHit = ray.direction().dot(this->normal_) != 0;
     double t = ((this->position_ - ray.origin()).dot(this->normal_) / (ray.direction().dot(this->normal_)));
-
+    // If the hit is valid, store the info and return true
     if(isHit && t >= minT && t <= maxT) {
         this->hitInfo_.hitpoint = ray.at(t);
         this->hitInfo_.normal = this->normal_;
         this->hitInfo_.t = t;
         return true;
     }
+    // Otherwise, return false
     return false;
 }

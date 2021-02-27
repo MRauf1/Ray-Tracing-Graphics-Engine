@@ -15,7 +15,7 @@ int main() {
 
     // Image settings
     double ASPECT_RATIO = 16.0 / 9.0;
-    int WIDTH = 256;
+    int WIDTH = 1920;
 
     Image IMAGE(ASPECT_RATIO, WIDTH);
 
@@ -50,19 +50,24 @@ int main() {
     std::shared_ptr<Object> plane3 = std::make_shared<Plane>(colorPlane3, positionPlane3, normalPlane3);
 
     Color3 colorSphere1(0.0, 1.0, 0.0);
-    Point3 positionSphere1(0.0, 0.0, -5.0);
-    double radiusSphere1 = 1.0;
+    Point3 positionSphere1(0.0, -0.7, -5.0);
+    double radiusSphere1 = 0.3;
     std::shared_ptr<Object> sphere1 = std::make_shared<Sphere>(colorSphere1, positionSphere1, radiusSphere1);
     Color3 colorSphere2(1.0, 0.5, 0.5);
-    Point3 positionSphere2(-3.0, 0.0, -3.0);
-    double radiusSphere2 = 1.0;
+    Point3 positionSphere2(-1.0, -0.5, -3.0);
+    double radiusSphere2 = 0.5;
     std::shared_ptr<Object> sphere2 = std::make_shared<Sphere>(colorSphere2, positionSphere2, radiusSphere2);
 
     Color3 colorTriangle1(1.0, 0.5, 0.5);
-    Point3 pointTriangle1(1.5, -1.0, -3.0);
-    Point3 pointTriangle2(1.5, 1.0, -3.0);
-    Point3 pointTriangle3(3.0, -1.0, -3.0);
-    std::shared_ptr<Object> triangle1 = std::make_shared<Triangle>(colorTriangle1, pointTriangle1, pointTriangle2, pointTriangle3);
+    Point3 pointTriangle1_1(0.5, -1.0, -3.0);
+    Point3 pointTriangle1_2(0.5, 1.0, -3.0);
+    Point3 pointTriangle1_3(2.0, -1.0, -3.0);
+    std::shared_ptr<Object> triangle1 = std::make_shared<Triangle>(colorTriangle1, pointTriangle1_1, pointTriangle1_2, pointTriangle1_3);
+    Color3 colorTriangle2(1.0, 0.5, 0.5);
+    Point3 pointTriangle2_1(0.5, 1.0, -3.0);
+    Point3 pointTriangle2_2(2.0, 1.0, -3.0);
+    Point3 pointTriangle2_3(2.0, -1.0, -3.0);
+    std::shared_ptr<Object> triangle2 = std::make_shared<Triangle>(colorTriangle1, pointTriangle2_1, pointTriangle2_2, pointTriangle2_3);
 
     // Lights in the scene
     Point3 positionLight1(-1.0, 0.0, 0.0);
@@ -82,6 +87,7 @@ int main() {
     world.addObject(sphere1);
     world.addObject(sphere2);
     world.addObject(triangle1);
+    world.addObject(triangle2);
     // Add lights to the world
     world.addLight(pointLight1);
     world.addLight(pointLight2);

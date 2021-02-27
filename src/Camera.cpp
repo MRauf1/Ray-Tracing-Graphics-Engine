@@ -15,7 +15,8 @@ Camera::Camera() {
     this->projection_ = PERSPECTIVE;
 }
 
-Camera::Camera(double aspect_ratio, double viewport_height, double focal_length, Point3 position, Vec3 view_dir, Vec3 up_dir, Projection projection) {
+Camera::Camera(double aspect_ratio, double viewport_height, double focal_length,
+               Point3 position, Vec3 view_dir, Vec3 up_dir, Projection projection) {
     this->aspect_ratio_ = aspect_ratio;
     this->viewport_height_ = viewport_height;
     this->viewport_width_ = this->viewport_height_ * this->aspect_ratio_;
@@ -79,23 +80,28 @@ Projection Camera::projection() const {
 }
 
 Ray Camera::createRay(double u, double v) {
-    // TODO: May need to modify this because of moveable camera
+    // Calculate the grid coordinates
     Vec3 x_step(this->viewport_width_, 0.0, 0.0);
     Vec3 y_step(0.0, this->viewport_height_, 0.0);
     Vec3 gridInfo = this->lower_left_ + x_step * u + y_step * v;
+    // Create the orthonormal basis for the camera and modify the grid
+    // coordinates accordingly
     this->createOrthonormalBasis();
     gridInfo = (this->x_dir_ * gridInfo[0]) + (this->y_dir_ * gridInfo[1]) + (this->z_dir_ * gridInfo[2]);
+    // Ray for Perspective projection or Orthographic projection
     if(this->projection_ == PERSPECTIVE) {
         Ray ray(this->position_, gridInfo);
         return ray;
     } else if(this->projection_ == ORTHOGRAPHIC) {
-        Vec3 direction(0.0, 0.0, -1.0);
-        Ray ray(gridInfo, direction);
+        Ray ray(gridInfo, this->view_dir_);
         return ray;
     }
 }
 
 void Camera::createOrthonormalBasis() {
+    // The formulas are from the lecture slides
+    // NEED TO DO THIS JUST ONCE OR AT EVERY SAMPLE?
+    // ARE Y_DIR AND UP_DIR REDUNDANT?
     Point3 origin(0.0, 0.0, 0.0);
     this->z_dir_ = (origin - this->view_dir_).normalize();
     this->x_dir_ = (this->up_dir_.cross(this->z_dir_)).normalize();

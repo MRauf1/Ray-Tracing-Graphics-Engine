@@ -18,6 +18,7 @@ Color3 PointLight::color() const {
 }
 
 Ray PointLight::lightDirection(Point3& point, bool addEpsilon) {
+    // Check whether to add an epsilon
     if(addEpsilon) {
         Vec3 direction(this->position_ - point);
         double epsilon = 0.00001;
