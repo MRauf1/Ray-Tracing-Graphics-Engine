@@ -1,0 +1,8 @@
+# Precompiled headers
+*.gch
+
+# Executables
+*.out
+
+# Output images within the source folder
+src/*.ppm
