@@ -17,12 +17,17 @@ Image IMAGE(ASPECT_RATIO, WIDTH);
 double VIEWPORT_HEIGHT = 2.0;
 double FOCAL_LENGTH = 1.0;
 Point3 POSITION(0.0, 0.0, 0.0);
+Vec3 VIEW_DIR(0.0, 0.0, -1.0); // VIEW_DIR and UP_DIR can't be parallel
+Vec3 UP_DIR(0.0, 1.0, 0.0);
+Projection PROJECTION = PERSPECTIVE;
 
-Camera CAMERA(ASPECT_RATIO, VIEWPORT_HEIGHT, FOCAL_LENGTH, POSITION);
+Camera CAMERA(ASPECT_RATIO, VIEWPORT_HEIGHT, FOCAL_LENGTH, POSITION, VIEW_DIR, UP_DIR, PROJECTION);
 
+// World settings
+int SAMPLES = 16;
 
 TEST_CASE("Test World constructor") {
-    World world(PERSPECTIVE, BACKGROUND, IMAGE, CAMERA);
+    World world(BACKGROUND, IMAGE, CAMERA, SAMPLES);
     REQUIRE(BACKGROUND[0] == world.background_color()[0]);
     REQUIRE(BACKGROUND[1] == world.background_color()[0]);
     REQUIRE(BACKGROUND[2] == world.background_color()[0]);
@@ -30,7 +35,7 @@ TEST_CASE("Test World constructor") {
 }
 
 TEST_CASE("Test add object") {
-    World world(PERSPECTIVE, BACKGROUND, IMAGE, CAMERA);
+    World world(BACKGROUND, IMAGE, CAMERA, SAMPLES);
     Color3 color(0.5, 0.5, 0.5);
     Point3 position(1.0, 0.0, 0.0);
     Vec3 normal(1.0, 0.0, 0.0);
@@ -41,7 +46,7 @@ TEST_CASE("Test add object") {
 }
 
 TEST_CASE("Test hitDetection with no objects") {
-    World world(PERSPECTIVE, BACKGROUND, IMAGE, CAMERA);
+    World world(BACKGROUND, IMAGE, CAMERA, SAMPLES);
     Point3 rayPoint(0.0, 0.0, 0.0);
     Vec3 rayDirection(1.0, 1.0, 1.0);
     Ray ray(rayPoint, rayDirection);
@@ -49,7 +54,7 @@ TEST_CASE("Test hitDetection with no objects") {
 }
 
 TEST_CASE("Test hitDetection with object, but no hit") {
-    World world(PERSPECTIVE, BACKGROUND, IMAGE, CAMERA);
+    World world(BACKGROUND, IMAGE, CAMERA, SAMPLES);
     Color3 color(0.5, 0.5, 0.5);
     Point3 position(0.0, 0.0, 3.0);
     Vec3 normal(0.0, 0.0, 1.0);
@@ -62,7 +67,7 @@ TEST_CASE("Test hitDetection with object, but no hit") {
 }
 
 TEST_CASE("Test hitDetection with object and hit") {
-    World world(PERSPECTIVE, BACKGROUND, IMAGE, CAMERA);
+    World world(BACKGROUND, IMAGE, CAMERA, SAMPLES);
     Color3 color(0.5, 0.5, 0.5);
     Point3 position(0.0, 0.0, -3.0);
     Vec3 normal(0.0, 0.0, 1.0);
@@ -76,7 +81,7 @@ TEST_CASE("Test hitDetection with object and hit") {
 }
 
 TEST_CASE("Test hitDetection with multiple objects and closest hit") {
-    World world(PERSPECTIVE, BACKGROUND, IMAGE, CAMERA);
+    World world(BACKGROUND, IMAGE, CAMERA, SAMPLES);
     Color3 color1(0.5, 0.5, 0.5);
     Point3 position1(0.0, 0.0, -3.0);
     Vec3 normal1(0.0, 0.0, 1.0);

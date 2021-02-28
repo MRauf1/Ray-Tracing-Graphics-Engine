@@ -1,8 +1,13 @@
-# Precompiled headers
-*.gch
+# Makefile files and folders
+*.release_time
+src/bin/
+src/build/
+test/bin/
+test/build/
 
 # Executables
-*.out
+src/main
 
-# Output images within the source folder
+# Output images within the source and test folders
 src/*.ppm
+test/*.ppm
