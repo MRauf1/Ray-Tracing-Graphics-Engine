@@ -2,6 +2,7 @@
 
 World::World() {
     this->samples_ = 1;
+    this->pixel_samples_ = std::vector<ImagePoint>(1);
 }
 
 World::World(Color3 background_color, Image image, Camera camera, int samples) {
@@ -9,6 +10,7 @@ World::World(Color3 background_color, Image image, Camera camera, int samples) {
     this->image_ = image;
     this->camera_ = camera;
     this->samples_ = samples;
+    this->pixel_samples_ = std::vector<ImagePoint>(this->samples_);
 }
 
 Color3 World::background_color() const {
@@ -112,21 +114,21 @@ void World::render(double minT, double maxT) {
             // Calculate the pixel size and use it to compute all the image points
             // through which the rays should go using multijittered sampling
             double pixel_size = 1.0 / (width - 1);
-            std::vector<ImagePoint> sample_points = this->multijitterSampling(pixel_size);
+            this->multijitterSampling(pixel_size);
             // Temporary color used for averaging
             Color3 tempColor(0.0, 0.0, 0.0);
             // Go through all samples
-            for(int k = 0; k < sample_points.size(); k++) {
+            for(int k = 0; k < this->pixel_samples_.size(); k++) {
                 // Create a ray through the image point
-                Ray ray = this->camera_.createRay(double(i) / (width - 1) + sample_points[k].x,
-                                                  double(j) / (height - 1) + sample_points[k].y);
+                Ray ray = this->camera_.createRay(double(i) / (width - 1) + this->pixel_samples_[k].x,
+                                                  double(j) / (height - 1) + this->pixel_samples_[k].y);
                 // Check if it hits an object
                 std::shared_ptr<Object> hitObject = this->hitDetection(ray, minT, maxT);
                 // Compute the appropriate color for the pixel using the hit object
                 tempColor = tempColor + this->litColor(hitObject, minT, maxT);
             }
             // Average the colors from the sampling
-            tempColor = tempColor / sample_points.size();
+            tempColor = tempColor / this->pixel_samples_.size();
             // Write the color in PPM format
             tempColor.write_data(std::cout);
             // Code for no sampling
@@ -139,10 +141,9 @@ void World::render(double minT, double maxT) {
     std::cerr << "\nDone.\n";
 }
 
-std::vector<ImagePoint> World::multijitterSampling(double pixel_size) {
+void World::multijitterSampling(double pixel_size) {
     // Initialize square root of the samples, output, and subcell size
     int samples_root = static_cast<int>(std::round(std::sqrt(this->samples_)));
-    std::vector<ImagePoint> output(samples_root * samples_root);
     double subcell_size = pixel_size / (samples_root * samples_root);
     // Initialize random number generator using Uniform distribution
     std::random_device rd;
@@ -151,8 +152,8 @@ std::vector<ImagePoint> World::multijitterSampling(double pixel_size) {
     // Initialize the points to the "canonical" multijittered pattern
     for(int i = 0; i < samples_root; i++) {
         for(int j = 0; j < samples_root; j++) {
-            output[i * samples_root + j].x = i * samples_root * subcell_size + j * subcell_size + dis_double(gen);
-            output[i * samples_root + j].y = j * samples_root * subcell_size + i * subcell_size + dis_double(gen);
+            this->pixel_samples_[i * samples_root + j].x = i * samples_root * subcell_size + j * subcell_size + dis_double(gen);
+            this->pixel_samples_[i * samples_root + j].y = j * samples_root * subcell_size + i * subcell_size + dis_double(gen);
         }
     }
     // Shuffle x coordinates within each column of cells
@@ -162,9 +163,9 @@ std::vector<ImagePoint> World::multijitterSampling(double pixel_size) {
             int k;
             std::uniform_int_distribution<> dis_int(j, (samples_root - 1));
             k = dis_int(gen);
-            t = output[i * samples_root + j].x;
-            output[i * samples_root + j].x = output[i * samples_root + k].x;
-            output[i * samples_root + k].x = t;
+            t = this->pixel_samples_[i * samples_root + j].x;
+            this->pixel_samples_[i * samples_root + j].x = this->pixel_samples_[i * samples_root + k].x;
+            this->pixel_samples_[i * samples_root + k].x = t;
         }
     }
     // Shuffle y coordinates within each row of cells
@@ -174,11 +175,9 @@ std::vector<ImagePoint> World::multijitterSampling(double pixel_size) {
             int k;
             std::uniform_int_distribution<> dis_int(j, (samples_root - 1));
             k = dis_int(gen);
-            t = output[j * samples_root + i].y;
-            output[j * samples_root + i].y = output[k * samples_root + i].y;
-            output[k * samples_root + i].y = t;
+            t = this->pixel_samples_[j * samples_root + i].y;
+            this->pixel_samples_[j * samples_root + i].y = this->pixel_samples_[k * samples_root + i].y;
+            this->pixel_samples_[k * samples_root + i].y = t;
         }
     }
-    // Return the output
-    return output;
 }

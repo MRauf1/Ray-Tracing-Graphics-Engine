@@ -27,6 +27,7 @@ class World {
         Image image_;
         Camera camera_;
         int samples_;
+        std::vector<ImagePoint> pixel_samples_;
         std::vector<std::shared_ptr<Object>> objects_;
         std::vector<std::shared_ptr<PointLight>> lights_;
 
@@ -140,10 +141,10 @@ class World {
         /**
          * Calculate the points on the image through which the rays should pass
          * using multijittered sampling for anti-aliasing
+         * Stores the pixel samples inside of pixel_samples_
          * @param  pixel_size Size of the pixel
-         * @return            Vector of image points through which the rays should pass
          */
-        std::vector<ImagePoint> multijitterSampling(double pixel_size);
+        void multijitterSampling(double pixel_size);
 
 };
 
