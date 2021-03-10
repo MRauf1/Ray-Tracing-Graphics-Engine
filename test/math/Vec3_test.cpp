@@ -1,4 +1,3 @@
-#define CATCH_CONFIG_MAIN
 #include "../catch.hpp"
 #include "../../src/math/Vec3.h"
 #include <cmath>
