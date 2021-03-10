@@ -132,7 +132,7 @@ void World::render(double minT, double maxT) {
             // Code for no sampling
             // Ray ray = this->camera_.createRay(double(i) / (width - 1), double(j) / (height - 1));
             // std::shared_ptr<Object> hitObject = this->hitDetection(ray, minT, maxT);
-            // this->litColor(hitObject).write_data(std::cout);
+            // this->litColor(hitObject, minT, maxT).write_data(std::cout);
         }
     }
     // For notifying the user that the program is done

@@ -13,6 +13,8 @@ Camera::Camera() {
     this->up_dir_ = Vec3(0.0, 1.0, 0.0);
     this->lower_left_ = this->position_ - this->x_dir_ / 2 - this->y_dir_ / 2 - Vec3(0.0, 0.0, this->focal_length_);
     this->projection_ = PERSPECTIVE;
+    // Create the orthonormal basis for the camera
+    this->createOrthonormalBasis();
 }
 
 Camera::Camera(double aspect_ratio, double viewport_height, double focal_length,
@@ -29,6 +31,8 @@ Camera::Camera(double aspect_ratio, double viewport_height, double focal_length,
     this->up_dir_ = up_dir;
     this->lower_left_ = this->position_ - this->x_dir_ / 2 - this->y_dir_ / 2 - Vec3(0.0, 0.0, this->focal_length_);
     this->projection_ = projection;
+    // Create the orthonormal basis for the camera
+    this->createOrthonormalBasis();
 }
 
 double Camera::aspect_ratio() const {
@@ -84,9 +88,8 @@ Ray Camera::createRay(double u, double v) {
     Vec3 x_step(this->viewport_width_, 0.0, 0.0);
     Vec3 y_step(0.0, this->viewport_height_, 0.0);
     Vec3 gridInfo = this->lower_left_ + x_step * u + y_step * v;
-    // Create the orthonormal basis for the camera and modify the grid
+    // Use the orthonormal basis of the camera and modify the grid
     // coordinates accordingly
-    this->createOrthonormalBasis();
     gridInfo = (this->x_dir_ * gridInfo[0]) + (this->y_dir_ * gridInfo[1]) + (this->z_dir_ * gridInfo[2]);
     // Ray for Perspective projection or Orthographic projection
     if(this->projection_ == PERSPECTIVE) {

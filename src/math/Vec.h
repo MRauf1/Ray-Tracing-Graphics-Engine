@@ -2,6 +2,7 @@
 #define VEC_H
 
 #include <iostream>
+#include <algorithm>
 
 template <typename T>
 class Vec {

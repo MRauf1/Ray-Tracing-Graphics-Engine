@@ -94,9 +94,9 @@ Vec3 Vec3::normalize() {
 }
 
 void Vec3::cutToUnit() {
-    for(int i = 0; i < 3; i++) {
-        this->data_[i] = this->data_[i] > 1.0 ? 1.0 : this->data_[i];
-    }
+    this->data_[0] = std::min(std::max(0.0, this->data_[0]), 1.0);
+    this->data_[1] = std::min(std::max(0.0, this->data_[1]), 1.0);
+    this->data_[2] = std::min(std::max(0.0, this->data_[2]), 1.0);
 }
 
 void Vec3::write_data(std::ostream& out) {

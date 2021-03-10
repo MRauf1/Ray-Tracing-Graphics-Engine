@@ -7,6 +7,7 @@
 #include "lights/PointLight.h"
 #include "World.h"
 #include <limits>
+#include <chrono>
 
 int main() {
 
@@ -15,7 +16,7 @@ int main() {
 
     // Image settings
     double ASPECT_RATIO = 16.0 / 9.0;
-    int WIDTH = 1920;
+    int WIDTH = 500;
 
     Image IMAGE(ASPECT_RATIO, WIDTH);
 
@@ -93,7 +94,11 @@ int main() {
     world.addLight(pointLight2);
     // world.addLight(pointLight3);
 
+    auto t1 = std::chrono::high_resolution_clock::now();
     // Render the scene
     world.render(0.0, std::numeric_limits<double>::max());
+    auto t2 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> ms_double = t2 - t1;
+    std::cerr << ms_double.count() << "ms";
 
 }
