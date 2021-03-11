@@ -60,6 +60,14 @@ TEST_CASE("Test Vec3 division") {
     REQUIRE((testData[2] / divider) == outputVec3.z());
 }
 
+TEST_CASE("Test Vec3 == operator with same values") {
+    double testData1[3] = {0.9, -2.34, 5.43};
+    Vec3 test1Vec3(testData1);
+    double testData2[3] = {0.9, -2.34, 5.43};
+    Vec3 test2Vec3(testData2);
+    REQUIRE(true == (test1Vec3 == test2Vec3));
+}
+
 TEST_CASE("Test Vec3 dot") {
     double testData1[3] = {-1.32, 4.15, 2.54};
     Vec3 test1Vec3(testData1);

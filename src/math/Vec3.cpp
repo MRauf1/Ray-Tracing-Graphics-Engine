@@ -70,6 +70,10 @@ Vec3 Vec3::operator/(const double& otherNum) {
     return Vec3(tempData);
 }
 
+bool Vec3::operator==(const Vec3& otherVec) {
+    return ((this->data_[0] == otherVec[0]) && (this->data_[1] == otherVec[1]) && (this->data_[2] == otherVec[2]));
+}
+
 Vec3 Vec3::elemProduct(const Vec3& otherVec) {
     return Vec3(this->data_[0] * otherVec[0], this->data_[1] * otherVec[1],this->data_[2] * otherVec[2]);
 }

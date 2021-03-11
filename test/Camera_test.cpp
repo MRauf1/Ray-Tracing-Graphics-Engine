@@ -40,13 +40,4 @@ TEST_CASE("Test non-default Camera constructor") {
     REQUIRE(camera.position().x() == position.x());
     REQUIRE(camera.position().y() == position.y());
     REQUIRE(camera.position().z() == position.z());
-    REQUIRE(camera.x_dir().x() == hor_direction.x());
-    REQUIRE(camera.x_dir().y() == hor_direction.y());
-    REQUIRE(camera.x_dir().z() == hor_direction.z());
-    REQUIRE(camera.y_dir().x() == ver_direction.x());
-    REQUIRE(camera.y_dir().y() == ver_direction.y());
-    REQUIRE(camera.y_dir().z() == ver_direction.z());
-    REQUIRE(camera.lower_left().x() == lower_left.x());
-    REQUIRE(camera.lower_left().y() == lower_left.y());
-    REQUIRE(camera.lower_left().z() == lower_left.z());
 }

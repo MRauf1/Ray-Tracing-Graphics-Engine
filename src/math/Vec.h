@@ -13,6 +13,7 @@ class Vec {
         virtual T operator-(const T& otherVec) = 0;
         virtual T operator*(const double& otherNum) = 0;
         virtual T operator/(const double& otherNum) = 0;
+        virtual bool operator==(const T& otherVec) = 0;
 
         virtual T elemProduct(const T& otherVec) = 0;
         virtual double dot(const T& otherVec) = 0;

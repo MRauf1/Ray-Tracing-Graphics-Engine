@@ -86,6 +86,14 @@ class Vec3 : public Vec<Vec3> {
          */
         Vec3 operator/(const double& otherNum) override;
 
+        /**
+         * == operator for Vec3
+         * Returns true if the values of Vec3s are the same
+         * Returns false otherwise
+         * @param  otherVec Other Vec3 which will be compared against
+         * @return          Boolean of whether Vec3s contain same values
+         */
+        bool operator==(const Vec3& otherVec) override;
 
         /**
          * Element wise product of 2 Vec3s
