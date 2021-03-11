@@ -103,8 +103,6 @@ Ray Camera::createRay(double u, double v) {
 
 void Camera::createOrthonormalBasis() {
     // The formulas are from the lecture slides
-    // NEED TO DO THIS JUST ONCE OR AT EVERY SAMPLE?
-    // ARE Y_DIR AND UP_DIR REDUNDANT?
     Point3 origin(0.0, 0.0, 0.0);
     this->z_dir_ = (origin - this->view_dir_).normalize();
     this->x_dir_ = (this->up_dir_.cross(this->z_dir_)).normalize();

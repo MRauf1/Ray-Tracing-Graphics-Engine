@@ -113,28 +113,28 @@ void World::render(double minT, double maxT) {
         for(int i = 0; i < width; i++) {
             // Calculate the pixel size and use it to compute all the image points
             // through which the rays should go using multijittered sampling
-            double pixel_size = 1.0 / (width - 1);
-            this->multijitterSampling(pixel_size);
-            // Temporary color used for averaging
-            Color3 tempColor(0.0, 0.0, 0.0);
-            // Go through all samples
-            for(int k = 0; k < this->pixel_samples_.size(); k++) {
-                // Create a ray through the image point
-                Ray ray = this->camera_.createRay(double(i) / (width - 1) + this->pixel_samples_[k].x,
-                                                  double(j) / (height - 1) + this->pixel_samples_[k].y);
-                // Check if it hits an object
-                std::shared_ptr<Object> hitObject = this->hitDetection(ray, minT, maxT);
-                // Compute the appropriate color for the pixel using the hit object
-                tempColor = tempColor + this->litColor(hitObject, minT, maxT);
-            }
-            // Average the colors from the sampling
-            tempColor = tempColor / this->pixel_samples_.size();
-            // Write the color in PPM format
-            tempColor.write_data(std::cout);
+            // double pixel_size = 1.0 / (width - 1);
+            // this->multijitterSampling(pixel_size);
+            // // Temporary color used for averaging
+            // Color3 tempColor(0.0, 0.0, 0.0);
+            // // Go through all samples
+            // for(int k = 0; k < this->pixel_samples_.size(); k++) {
+            //     // Create a ray through the image point
+            //     Ray ray = this->camera_.createRay(double(i) / (width - 1) + this->pixel_samples_[k].x,
+            //                                       double(j) / (height - 1) + this->pixel_samples_[k].y);
+            //     // Check if it hits an object
+            //     std::shared_ptr<Object> hitObject = this->hitDetection(ray, minT, maxT);
+            //     // Compute the appropriate color for the pixel using the hit object
+            //     tempColor = tempColor + this->litColor(hitObject, minT, maxT);
+            // }
+            // // Average the colors from the sampling
+            // tempColor = tempColor / this->pixel_samples_.size();
+            // // Write the color in PPM format
+            // tempColor.write_data(std::cout);
             // Code for no sampling
-            // Ray ray = this->camera_.createRay(double(i) / (width - 1), double(j) / (height - 1));
-            // std::shared_ptr<Object> hitObject = this->hitDetection(ray, minT, maxT);
-            // this->litColor(hitObject, minT, maxT).write_data(std::cout);
+            Ray ray = this->camera_.createRay(double(i) / (width - 1), double(j) / (height - 1));
+            std::shared_ptr<Object> hitObject = this->hitDetection(ray, minT, maxT);
+            this->litColor(hitObject, minT, maxT).write_data(std::cout);
         }
     }
     // For notifying the user that the program is done
