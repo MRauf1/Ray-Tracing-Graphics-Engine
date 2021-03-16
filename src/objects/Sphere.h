@@ -7,7 +7,7 @@
 class Sphere : public Object {
 
     private:
-        
+
         Point3 center_;
         double radius_;
 

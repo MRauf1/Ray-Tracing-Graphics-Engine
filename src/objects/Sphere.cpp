@@ -27,9 +27,9 @@ bool Sphere::isHit(Ray& ray, double minT, double maxT) {
     double b = 2.0 * ray.direction().dot(ac);
     double c = ac.dot(ac) - (this->radius_ * this->radius_);
     double discriminant = b * b - 4.0 * a * c;
-    // Check if there is a hit and calcualate t
+    // Check if there is a hit and calculate t
     // USE THE OPTIMIZATION DISCUSSED IN LECTURES
-    bool isHit = discriminant > 0; // SHOULD BE >= 0
+    bool isHit = discriminant >= 0;
     double t = isHit ? (-b - std::sqrt(discriminant)) / (2.0 * a) : -1.0;
     // If the hit is valid, store the info and return true
     if(isHit && t >= minT && t <= maxT) {

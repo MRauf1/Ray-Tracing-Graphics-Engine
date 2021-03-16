@@ -8,7 +8,7 @@
 class Object {
 
     protected:
-        
+
         Color3 color_;
         HitInfo hitInfo_;
 

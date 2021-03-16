@@ -7,9 +7,10 @@ project(GraphicsEngine  VERSION 1.0
 add_subdirectory(math/)
 add_subdirectory(image/)
 add_subdirectory(lights/)
+add_subdirectory(data_structures/)
 add_subdirectory(objects/)
 
 set(src_files main.cpp World.cpp Camera.cpp)
 add_executable(main ${src_files})
 
-target_link_libraries(main math image lights objects)
+target_link_libraries(main math image lights data_structures objects)
