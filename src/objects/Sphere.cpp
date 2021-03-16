@@ -4,12 +4,14 @@ Sphere::Sphere() {
     this->color_ = Color3(0.0, 0.0, 0.0);
     this->center_ = Point3(0.0, 0.0, 0.0);
     this->radius_ = 1.0;
+    this->makeAABB();
 }
 
 Sphere::Sphere(Color3 color, Point3 center, double radius) {
     this->color_ = color;
     this->center_ = center;
     this->radius_ = radius;
+    this->makeAABB();
 }
 
 Point3 Sphere::center() const {
@@ -40,4 +42,10 @@ bool Sphere::isHit(Ray& ray, double minT, double maxT) {
     }
     // Otherwise, return false
     return false;
+}
+
+void Sphere::makeAABB() {
+    Point3 min_point(this->center_[0] - this->radius_, this->center_[1] - this->radius_, this->center_[2] - this->radius_);
+    Point3 max_point(this->center_[0] + this->radius_, this->center_[1] + this->radius_, this->center_[2] + this->radius_);
+    this->aabb_ = std::make_shared<AABB>(min_point, max_point);
 }

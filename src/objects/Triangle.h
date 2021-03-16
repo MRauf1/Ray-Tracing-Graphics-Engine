@@ -2,11 +2,12 @@
 #define TRIANGLE_H
 
 #include "Object.h"
+#include <algorithm>
 
 class Triangle : public Object {
 
     private:
-        
+
         Point3 point1_;
         Point3 point2_;
         Point3 point3_;
@@ -60,6 +61,8 @@ class Triangle : public Object {
          * @return      [description]
          */
         bool isHit(Ray& ray, double minT, double maxT) override;
+
+        void makeAABB() override;
 
 };
 

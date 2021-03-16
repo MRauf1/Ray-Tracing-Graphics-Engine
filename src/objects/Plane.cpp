@@ -4,12 +4,14 @@ Plane::Plane() {
     this->color_ = Color3(0.0, 0.0, 0.0);
     this->position_ = Point3(0.0, 0.0, 0.0);
     this->normal_ = Vec3(0.0, 0.0, -1.0);
+    this->makeAABB();
 }
 
 Plane::Plane(Color3 color, Point3 position, Vec3 normal) {
     this->color_ = color;
     this->position_ = position;
     this->normal_ = normal;
+    this->makeAABB();
 }
 
 Point3 Plane::position() const {
@@ -33,4 +35,8 @@ bool Plane::isHit(Ray& ray, double minT, double maxT) {
     }
     // Otherwise, return false
     return false;
+}
+
+void Plane::makeAABB() {
+    this->aabb_ = nullptr;
 }

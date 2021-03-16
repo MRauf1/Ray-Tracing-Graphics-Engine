@@ -50,3 +50,16 @@ TEST_CASE("Test Sphere miss because of t") {
     Ray ray(rayPoint, rayDirection);
     REQUIRE(false == sphere->isHit(ray, 0.0, 100.0));
 }
+
+TEST_CASE("Test Sphere AABB") {
+    Color3 color(0.5, 0.5, 0.5);
+    Point3 position(0.0, 0.0, 0.0);
+    double radius = 1.0;
+    std::shared_ptr<Object> sphere = std::make_shared<Sphere>(color, position, radius);
+    std::shared_ptr<AABB> sphere_aabb = sphere->aabb();
+    Point3 min_point(-1.0, -1.0, -1.0);
+    Point3 max_point(1.0, 1.0, 1.0);
+    AABB aabb(min_point, max_point);
+    REQUIRE(true == (aabb.min_point() == sphere_aabb->min_point()));
+    REQUIRE(true == (aabb.max_point() == sphere_aabb->max_point()));
+}

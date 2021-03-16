@@ -59,3 +59,17 @@ TEST_CASE("Test Triangle miss because of t") {
     Ray ray(rayPoint, rayDirection);
     REQUIRE(false == triangle->isHit(ray, 0.0, 100.0));
 }
+
+TEST_CASE("Test Triangle AABB") {
+    Color3 color(0.5, 0.5, 0.5);
+    Point3 point1(-0.5, -1.0, 2.0);
+    Point3 point2(-0.5, 3.0, 3.0);
+    Point3 point3(1.0, -1.0, 3.0);
+    std::shared_ptr<Object> triangle = std::make_shared<Triangle>(color, point1, point2, point3);
+    std::shared_ptr<AABB> triangle_aabb = triangle->aabb();
+    Point3 min_point(-0.5, -1.0, 2.0);
+    Point3 max_point(1.0, 3.0, 3.0);
+    AABB aabb(min_point, max_point);
+    REQUIRE(true == (aabb.min_point() == triangle_aabb->min_point()));
+    REQUIRE(true == (aabb.max_point() == triangle_aabb->max_point()));
+}

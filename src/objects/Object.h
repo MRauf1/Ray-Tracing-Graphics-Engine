@@ -3,7 +3,9 @@
 
 #include "../math/Vec3.h"
 #include "../math/Ray.h"
+#include "../data_structures/AABB.h"
 #include "HitInfo.h"
+#include <memory>
 
 class Object {
 
@@ -11,6 +13,7 @@ class Object {
 
         Color3 color_;
         HitInfo hitInfo_;
+        std::shared_ptr<AABB> aabb_;
 
 
     public:
@@ -27,7 +30,10 @@ class Object {
          */
         HitInfo hitInfo() const;
 
+        std::shared_ptr<AABB> aabb() const;
+
         virtual bool isHit(Ray& ray, double minT, double maxT) = 0;
+        virtual void makeAABB() = 0;
 
 };
 

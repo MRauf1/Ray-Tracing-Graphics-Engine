@@ -52,3 +52,11 @@ TEST_CASE("Test Plane miss because of t") {
     Ray ray(rayPoint, rayDirection);
     REQUIRE(false == plane->isHit(ray, 0.0, 100.0));
 }
+
+TEST_CASE("Test Plane AABB") {
+    Color3 color(0.5, 0.5, 0.5);
+    Point3 position(0.0, 0.0, 3.0);
+    Vec3 normal(0.0, 0.0, 1.0);
+    std::shared_ptr<Object> plane = std::make_shared<Plane>(color, position, normal);
+    REQUIRE(nullptr == plane->aabb());
+}

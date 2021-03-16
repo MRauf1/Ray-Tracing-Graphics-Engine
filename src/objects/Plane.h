@@ -6,7 +6,7 @@
 class Plane : public Object {
 
     private:
-        
+
         Point3 position_;
         Vec3 normal_;
 
@@ -52,6 +52,8 @@ class Plane : public Object {
          * @return      [description]
          */
         bool isHit(Ray& ray, double minT, double maxT) override;
+
+        void makeAABB() override;
 
 };
 

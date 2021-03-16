@@ -7,3 +7,7 @@ Color3 Object::color() const {
 HitInfo Object::hitInfo() const {
     return this->hitInfo_;
 }
+
+std::shared_ptr<AABB> Object::aabb() const {
+    return this->aabb_;
+}

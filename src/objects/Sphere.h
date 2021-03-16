@@ -54,6 +54,8 @@ class Sphere : public Object {
          */
         bool isHit(Ray& ray, double minT, double maxT) override;
 
+        void makeAABB() override;
+
 };
 
 #endif

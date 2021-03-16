@@ -1,7 +1,7 @@
 #include "Triangle.h"
 
 Triangle::Triangle() {
-
+    this->makeAABB();
 }
 
 Triangle::Triangle(Color3 color, Point3 point1, Point3 point2, Point3 point3) {
@@ -9,6 +9,7 @@ Triangle::Triangle(Color3 color, Point3 point1, Point3 point2, Point3 point3) {
     this->point1_ = point1;
     this->point2_ = point2;
     this->point3_ = point3;
+    this->makeAABB();
 }
 
 Point3 Triangle::point1() const {
@@ -50,16 +51,24 @@ bool Triangle::isHit(Ray& ray, double minT, double maxT) {
     // If the hit is valid, store the info and return true
     if(isHit && t >= minT && t <= maxT) {
         this->hitInfo_.hitpoint = ray.at(t);
-        // Note: slides say e1.cross(e2) for normal, but that gives normal
-        // in the reverse direction, but e2.cross(e1)
-        // Bug or not? Need to figure out
-        // Answer to above: appropriate normal depends on what order the
-        // vertices are inputted in
-        // TODO: Try to regulate it to avoid issues
         this->hitInfo_.normal = e2.cross(e1);
         this->hitInfo_.t = t;
         return true;
     }
     // Otherwise, return false
     return false;
+}
+
+void Triangle::makeAABB() {
+    Point3 min_point(
+        std::min(std::min(point1_[0], point2_[0]), point3_[0]),
+        std::min(std::min(point1_[1], point2_[1]), point3_[1]),
+        std::min(std::min(point1_[2], point2_[2]), point3_[2])
+    );
+    Point3 max_point(
+        std::max(std::max(point1_[0], point2_[0]), point3_[0]),
+        std::max(std::max(point1_[1], point2_[1]), point3_[1]),
+        std::max(std::max(point1_[2], point2_[2]), point3_[2])
+    );
+    this->aabb_ = std::make_shared<AABB>(min_point, max_point);
 }
