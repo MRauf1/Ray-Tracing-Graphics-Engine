@@ -2,6 +2,7 @@
 #include "image/Image.h"
 #include "Camera.h"
 #include "objects/Object.h"
+#include "data_structures/AABB.h"
 #include "objects/Plane.h"
 #include "objects/Sphere.h"
 #include "lights/PointLight.h"
@@ -10,7 +11,7 @@
 #include <chrono>
 
 int main() {
-
+    std::shared_ptr<AABB> test = std::make_shared<AABB>();
     // Background color
     Color3 BACKGROUND(1.0, 1.0, 1.0);
 

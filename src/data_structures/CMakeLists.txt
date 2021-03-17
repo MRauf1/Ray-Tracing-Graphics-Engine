@@ -4,7 +4,7 @@ project(GraphicsEngine  VERSION 1.0
                         DESCRIPTION "Ray Tracing Graphics Engine"
                         LANGUAGES CXX)
 
-set(data_structures_files AABB.cpp)
+set(data_structures_files AABB.cpp BVHNode.cpp)
 add_library(data_structures ${data_structures_files})
 
 # target_link_libraries(lights objects)
