@@ -6,6 +6,7 @@
 #include <memory>
 #include <vector>
 #include <algorithm>
+#include <limits>
 #include <iostream>
 
 class BVH {
@@ -28,6 +29,8 @@ class BVH {
         std::shared_ptr<BVHNode> root() const;
 
         std::vector<std::shared_ptr<Object>> objects() const;
+
+        std::shared_ptr<AABB> createAABB(int i, int j);
 
 };
 
