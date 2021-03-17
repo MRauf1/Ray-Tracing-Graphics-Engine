@@ -32,6 +32,8 @@ class BVH {
 
         std::shared_ptr<AABB> createAABB(int i, int j);
 
+        std::shared_ptr<BVHNode> createBVH(int i, int j);
+
 };
 
 bool compareObject(std::shared_ptr<Object> object1, std::shared_ptr<Object> object2);
