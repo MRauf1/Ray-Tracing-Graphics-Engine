@@ -6,6 +6,7 @@
 #include "../data_structures/AABB.h"
 #include "HitInfo.h"
 #include <memory>
+#include <iostream>
 
 class Object {
 
@@ -31,6 +32,8 @@ class Object {
         HitInfo hitInfo() const;
 
         std::shared_ptr<AABB> aabb() const;
+
+        bool operator<(const Object& object) const;
 
         virtual bool isHit(Ray& ray, double minT, double maxT) = 0;
         virtual void makeAABB() = 0;

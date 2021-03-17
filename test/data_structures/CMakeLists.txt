@@ -10,4 +10,5 @@ project(EngineTest  VERSION 1.0
 # add_library(test_objects ${test_objects_files})
 
 set(test_data_structures_files  ../src/data_structures/AABB.cpp data_structures/AABB_test.cpp
-                                ../src/data_structures/BVHNode.cpp data_structures/BVHNode_test.cpp PARENT_SCOPE)
+                                ../src/data_structures/BVHNode.cpp data_structures/BVHNode_test.cpp
+                                ../src/data_structures/BVH.cpp data_structures/BVH_test.cpp PARENT_SCOPE)
