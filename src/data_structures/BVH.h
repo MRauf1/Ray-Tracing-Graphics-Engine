@@ -34,6 +34,10 @@ class BVH {
 
         std::shared_ptr<BVHNode> createBVH(int i, int j);
 
+        std::shared_ptr<Object> detectHit(Ray& ray);
+
+        std::shared_ptr<Object> detectHitHelper(Ray& ray, std::shared_ptr<BVHNode> curr);
+
 };
 
 bool compareObject(std::shared_ptr<Object> object1, std::shared_ptr<Object> object2);

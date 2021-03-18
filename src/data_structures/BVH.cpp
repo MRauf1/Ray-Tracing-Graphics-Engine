@@ -5,13 +5,8 @@ BVH::BVH() {
 }
 
 BVH::BVH(std::shared_ptr<BVHNode> root, std::vector<std::shared_ptr<Object>> objects) {
-    // this->root_ = root;
     this->objects_ = objects;
     std::sort(this->objects_.begin(), this->objects_.end(), compareObject);
-    // std::shared_ptr<BVHNode> left = this->createBVH(0, (int) (this->objects_.size() / 2));
-    // std::shared_ptr<BVHNode> right = this->createBVH((int) (this->objects_.size() / 2), this->objects_.size());
-    // std::shared_ptr<AABB> aabb = this->createAABB(0, this->objects_.size());
-    // this->root_ = std::make_shared<BVHNode>(left, right, aabb, nullptr);
     this->root_ = this->createBVH(0, this->objects_.size() - 1);
 }
 
@@ -66,6 +61,33 @@ std::shared_ptr<BVHNode> BVH::createBVH(int i, int j) {
     std::shared_ptr<BVHNode> node = std::make_shared<BVHNode>(left, right, aabb, nullptr);
     return node;
 }
+
+std::shared_ptr<Object> BVH::detectHit(Ray& ray) {
+    return this->detectHitHelper(ray, this->root_);
+}
+
+std::shared_ptr<Object> BVH::detectHitHelper(Ray& ray, std::shared_ptr<BVHNode> curr) {
+    // If ray misses node's AABB, no hit, so return nullptr
+    if(!(curr->aabb()->isHit(ray))) {
+        return nullptr;
+    }
+    // Check if leaf node
+    if(curr->left() == nullptr && curr->right() == nullptr) {
+        // If ray hits the object, return this object
+        if(curr->object()->isHit(ray, 0, 999999)) {
+            return curr->object();
+        }
+        // Else, return nullptr
+        return nullptr;
+    }
+    std::shared_ptr<Object> output = this->detectHitHelper(ray, curr->left());
+    if(output != nullptr) {
+        return output;
+    }
+    output = this->detectHitHelper(ray, curr->right());
+    return output;
+}
+
 
 bool compareObject(std::shared_ptr<Object> object1, std::shared_ptr<Object> object2) {
     double curr = object1->aabb()->min_point()[0] + (object1->aabb()->max_point()[0] - object1->aabb()->min_point()[0]) / 2;
