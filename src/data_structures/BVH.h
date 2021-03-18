@@ -24,7 +24,7 @@ class BVH {
          */
         BVH();
 
-        BVH(std::shared_ptr<BVHNode> root, std::vector<std::shared_ptr<Object>> objects);
+        BVH(std::vector<std::shared_ptr<Object>> objects);
 
         std::shared_ptr<BVHNode> root() const;
 

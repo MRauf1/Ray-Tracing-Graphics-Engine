@@ -4,7 +4,7 @@ BVH::BVH() {
 
 }
 
-BVH::BVH(std::shared_ptr<BVHNode> root, std::vector<std::shared_ptr<Object>> objects) {
+BVH::BVH(std::vector<std::shared_ptr<Object>> objects) {
     this->objects_ = objects;
     std::sort(this->objects_.begin(), this->objects_.end(), compareObject);
     this->root_ = this->createBVH(0, this->objects_.size() - 1);

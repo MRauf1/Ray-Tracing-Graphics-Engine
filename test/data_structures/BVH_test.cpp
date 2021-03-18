@@ -4,7 +4,6 @@
 #include <iostream>
 
 TEST_CASE("Test BVH objects are sorted by midpoint") {
-    std::shared_ptr<BVHNode> root = std::make_shared<BVHNode>();
     Color3 color(1.0, 1.0, 1.0);
     Point3 center1(5.0, 0.0, 0.0);
     Point3 center2(0.0, 2.0, 0.0);
@@ -19,7 +18,7 @@ TEST_CASE("Test BVH objects are sorted by midpoint") {
     objects.push_back(object1);
     objects.push_back(object2);
     objects.push_back(object3);
-    BVH bvh(root, objects);
+    BVH bvh(objects);
     std::vector<std::shared_ptr<Object>> output = bvh.objects();
     REQUIRE(true == (output[0] == objects[1]));
     REQUIRE(true == (output[1] == objects[0]));
@@ -27,7 +26,6 @@ TEST_CASE("Test BVH objects are sorted by midpoint") {
 }
 
 TEST_CASE("Test BVH AABB for the root node") {
-    std::shared_ptr<BVHNode> root = std::make_shared<BVHNode>();
     Color3 color(1.0, 1.0, 1.0);
     Point3 center1(0.0, 0.0, 0.0);
     Point3 center2(5.0, 2.0, 0.0);
@@ -42,7 +40,7 @@ TEST_CASE("Test BVH AABB for the root node") {
     objects.push_back(object1);
     objects.push_back(object2);
     objects.push_back(object3);
-    BVH bvh(root, objects);
+    BVH bvh(objects);
     std::shared_ptr<AABB> aabb = bvh.createAABB(0, objects.size() - 1);
     Point3 min_point(-3.0, -4.0, -3.0);
     Point3 max_point(11.0, 4.0, 5.0);
@@ -51,7 +49,6 @@ TEST_CASE("Test BVH AABB for the root node") {
 }
 
 TEST_CASE("Test BVH constuction with 3 objects") {
-    std::shared_ptr<BVHNode> root = std::make_shared<BVHNode>();
     Color3 color(1.0, 1.0, 1.0);
     Point3 center1(5.0, 0.0, 0.0);
     Point3 center2(0.0, 2.0, 0.0);
@@ -66,14 +63,13 @@ TEST_CASE("Test BVH constuction with 3 objects") {
     objects.push_back(object1);
     objects.push_back(object2);
     objects.push_back(object3);
-    BVH bvh(root, objects);
+    BVH bvh(objects);
     REQUIRE(true == (bvh.root()->left()->right()->object() == object1));
     REQUIRE(true == (bvh.root()->left()->left()->object() == object2));
     REQUIRE(true == (bvh.root()->right()->object() == object3));
 }
 
 TEST_CASE("Test BVH hit with 3 objects") {
-    std::shared_ptr<BVHNode> root = std::make_shared<BVHNode>();
     Color3 color(1.0, 1.0, 1.0);
     Point3 center1(5.0, 0.0, -6.0);
     Point3 center2(0.0, 2.0, -3.0);
@@ -88,7 +84,7 @@ TEST_CASE("Test BVH hit with 3 objects") {
     objects.push_back(object1);
     objects.push_back(object2);
     objects.push_back(object3);
-    BVH bvh(root, objects);
+    BVH bvh(objects);
     Point3 origin(0.0, 0.0, 0.0);
     Vec3 direction(0.0, 0.5, -1.0);
     Ray ray(origin, direction);
