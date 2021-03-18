@@ -47,25 +47,25 @@ void World::addLight(std::shared_ptr<PointLight> light) {
 }
 
 std::shared_ptr<Object> World::hitDetection(Ray& ray, double minT, double maxT) {
-    // If there are no objects, return nullptr
-    if(this->objects_.empty()) {
-        return nullptr;
-    }
-    // Initialize closestObject and closestT
-    std::shared_ptr<Object> closestObject = nullptr;
-    double closestT = std::numeric_limits<double>::max();
-    // Go through each object in the world
-    for(int i = 0; i < this->objects_.size(); i++) {
-        // If the object is hit within the t bounds (minT, maxT) and is closer
-        // than previous object, update closestObject and closestT
-        if(this->objects_[i]->isHit(ray, minT, maxT) && this->objects_[i]->hitInfo().t < closestT) {
-            closestObject = this->objects_[i];
-            closestT = closestObject->hitInfo().t;
-        }
-    }
-    // Return the closestObject
-    return closestObject;
-    // return this->bvh_objects_.detectHit(ray);
+    // // If there are no objects, return nullptr
+    // if(this->objects_.empty()) {
+    //     return nullptr;
+    // }
+    // // Initialize closestObject and closestT
+    // std::shared_ptr<Object> closestObject = nullptr;
+    // double closestT = std::numeric_limits<double>::max();
+    // // Go through each object in the world
+    // for(int i = 0; i < this->objects_.size(); i++) {
+    //     // If the object is hit within the t bounds (minT, maxT) and is closer
+    //     // than previous object, update closestObject and closestT
+    //     if(this->objects_[i]->isHit(ray, minT, maxT) && this->objects_[i]->hitInfo().t < closestT) {
+    //         closestObject = this->objects_[i];
+    //         closestT = closestObject->hitInfo().t;
+    //     }
+    // }
+    // // Return the closestObject
+    // return closestObject;
+    return this->bvh_objects_.detectHit(ray);
 }
 
 Color3 World::litColor(std::shared_ptr<Object> hitObject, double minT, double maxT) {

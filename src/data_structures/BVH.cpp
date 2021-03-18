@@ -67,6 +67,9 @@ std::shared_ptr<Object> BVH::detectHit(Ray& ray) {
 }
 
 std::shared_ptr<Object> BVH::detectHitHelper(Ray& ray, std::shared_ptr<BVHNode> curr) {
+    // TODO: Traverse right tree in case AABBs overlap, otherwise may hit object behind
+    // TODO: Finished above, but need to test that it works
+
     // If ray misses node's AABB, no hit, so return nullptr
     if(!(curr->aabb()->isHit(ray))) {
         return nullptr;
@@ -74,18 +77,26 @@ std::shared_ptr<Object> BVH::detectHitHelper(Ray& ray, std::shared_ptr<BVHNode> 
     // Check if leaf node
     if(curr->left() == nullptr && curr->right() == nullptr) {
         // If ray hits the object, return this object
-        if(curr->object()->isHit(ray, 0, 999999)) {
-            return curr->object();
-        }
         // Else, return nullptr
+        return curr->object()->isHit(ray, 0, 999999) ? curr->object() : nullptr;
+    }
+    std::shared_ptr<Object> left = this->detectHitHelper(ray, curr->left());
+    // if(output != nullptr) {
+    //     return output;
+    // }
+    // output = this->detectHitHelper(ray, curr->right());
+    // return output;
+    std::shared_ptr<Object> right = this->detectHitHelper(ray, curr->right());
+
+    if(left != nullptr && right != nullptr) {
+        return left->hitInfo().t < right->hitInfo().t ? left : right;
+    } else if(left != nullptr && right == nullptr) {
+        return left;
+    } else if(left == nullptr && right != nullptr) {
+        return right;
+    } else {
         return nullptr;
     }
-    std::shared_ptr<Object> output = this->detectHitHelper(ray, curr->left());
-    if(output != nullptr) {
-        return output;
-    }
-    output = this->detectHitHelper(ray, curr->right());
-    return output;
 }
 
 

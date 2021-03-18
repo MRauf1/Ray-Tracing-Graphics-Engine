@@ -13,11 +13,11 @@
 int main() {
     std::shared_ptr<AABB> test = std::make_shared<AABB>();
     // Background color
-    Color3 BACKGROUND(1.0, 1.0, 1.0);
+    Color3 BACKGROUND(0.0, 0.0, 0.0);
 
     // Image settings
-    double ASPECT_RATIO = 16.0 / 9.0;
-    int WIDTH = 500;
+    double ASPECT_RATIO = 1.0;
+    int WIDTH = 400;
 
     Image IMAGE(ASPECT_RATIO, WIDTH);
 
@@ -35,78 +35,124 @@ int main() {
     int SAMPLES = 16;
 
     // Objects in the scene
-    Color3 colorPlane1(1.0, 0.0, 0.0);
-    Point3 positionPlane1(0.0, -1.0, 0.0);
-    Vec3 normalPlane1(0.0, 1.0, 0.0);
-    std::shared_ptr<Object> plane1 = std::make_shared<Plane>(colorPlane1, positionPlane1, normalPlane1);
-    Color3 colorPlane2(0.0, 1.0, 0.0);
-    Point3 positionPlane2(10.0, 0.0, -10.0);
-    Vec3 normalPlane2(-0.5, 0.0, 0.5);
-    std::shared_ptr<Object> plane2 = std::make_shared<Plane>(colorPlane2, positionPlane2, normalPlane2);
-    Color3 colorPlane3(0.0, 0.0, 1.0);
-    Point3 positionPlane3(-10.0, 0.0, -10.0);
-    Vec3 normalPlane3(0.5, 0.0, 0.5);
-    std::shared_ptr<Object> plane3 = std::make_shared<Plane>(colorPlane3, positionPlane3, normalPlane3);
-
-    Color3 colorSphere1(0.0, 1.0, 0.0);
-    Point3 positionSphere1(0.0, -0.7, -5.0);
-    double radiusSphere1 = 0.3;
-    std::shared_ptr<Object> sphere1 = std::make_shared<Sphere>(colorSphere1, positionSphere1, radiusSphere1);
-    Color3 colorSphere2(1.0, 0.5, 0.5);
-    Point3 positionSphere2(-1.0, -0.5, -3.0);
-    double radiusSphere2 = 0.5;
-    std::shared_ptr<Object> sphere2 = std::make_shared<Sphere>(colorSphere2, positionSphere2, radiusSphere2);
-
-    Color3 colorTriangle1(1.0, 0.5, 0.5);
-    Point3 pointTriangle1_1(0.5, -1.0, -3.0);
-    Point3 pointTriangle1_2(0.5, 1.0, -3.0);
-    Point3 pointTriangle1_3(2.0, -1.0, -3.0);
-    std::shared_ptr<Object> triangle1 = std::make_shared<Triangle>(colorTriangle1, pointTriangle1_1, pointTriangle1_2, pointTriangle1_3);
-    Color3 colorTriangle2(1.0, 0.5, 0.5);
-    Point3 pointTriangle2_1(0.5, 1.0, -3.0);
-    Point3 pointTriangle2_2(2.0, 1.0, -3.0);
-    Point3 pointTriangle2_3(2.0, -1.0, -3.0);
-    std::shared_ptr<Object> triangle2 = std::make_shared<Triangle>(colorTriangle1, pointTriangle2_1, pointTriangle2_2, pointTriangle2_3);
+    // Color3 colorPlane1(1.0, 0.0, 0.0);
+    // Point3 positionPlane1(0.0, -1.0, 0.0);
+    // Vec3 normalPlane1(0.0, 1.0, 0.0);
+    // std::shared_ptr<Object> plane1 = std::make_shared<Plane>(colorPlane1, positionPlane1, normalPlane1);
+    // Color3 colorPlane2(0.0, 1.0, 0.0);
+    // Point3 positionPlane2(10.0, 0.0, -10.0);
+    // Vec3 normalPlane2(-0.5, 0.0, 0.5);
+    // std::shared_ptr<Object> plane2 = std::make_shared<Plane>(colorPlane2, positionPlane2, normalPlane2);
+    // Color3 colorPlane3(0.0, 0.0, 1.0);
+    // Point3 positionPlane3(-10.0, 0.0, -10.0);
+    // Vec3 normalPlane3(0.5, 0.0, 0.5);
+    // std::shared_ptr<Object> plane3 = std::make_shared<Plane>(colorPlane3, positionPlane3, normalPlane3);
+    //
+    // Color3 colorSphere1(0.0, 1.0, 0.0);
+    // Point3 positionSphere1(0.0, -0.7, -5.0);
+    // double radiusSphere1 = 0.3;
+    // std::shared_ptr<Object> sphere1 = std::make_shared<Sphere>(colorSphere1, positionSphere1, radiusSphere1);
+    // Color3 colorSphere2(1.0, 0.5, 0.5);
+    // Point3 positionSphere2(-1.0, -0.5, -3.0);
+    // double radiusSphere2 = 0.5;
+    // std::shared_ptr<Object> sphere2 = std::make_shared<Sphere>(colorSphere2, positionSphere2, radiusSphere2);
+    //
+    // Color3 colorTriangle1(1.0, 0.5, 0.5);
+    // Point3 pointTriangle1_1(0.5, -1.0, -3.0);
+    // Point3 pointTriangle1_2(0.5, 1.0, -3.0);
+    // Point3 pointTriangle1_3(2.0, -1.0, -3.0);
+    // std::shared_ptr<Object> triangle1 = std::make_shared<Triangle>(colorTriangle1, pointTriangle1_1, pointTriangle1_2, pointTriangle1_3);
+    // Color3 colorTriangle2(1.0, 0.5, 0.5);
+    // Point3 pointTriangle2_1(0.5, 1.0, -3.0);
+    // Point3 pointTriangle2_2(2.0, 1.0, -3.0);
+    // Point3 pointTriangle2_3(2.0, -1.0, -3.0);
+    // std::shared_ptr<Object> triangle2 = std::make_shared<Triangle>(colorTriangle1, pointTriangle2_1, pointTriangle2_2, pointTriangle2_3);
 
     // Lights in the scene
-    Point3 positionLight1(-1.0, 0.0, 0.0);
-    Color3 colorLight1(0.5, 0.5, 0.5);
-    std::shared_ptr<PointLight> pointLight1 = std::make_shared<PointLight>(positionLight1, colorLight1);
-    Point3 positionLight2(1.0, 0.0, 0.0);
-    Color3 colorLight2(0.5, 0.5, 0.5);
-    std::shared_ptr<PointLight> pointLight2 = std::make_shared<PointLight>(positionLight2, colorLight2);
-    Point3 positionLight3(0.0, 10.0, 0.0);
-    Color3 colorLight3(1.0, 1.0, 1.0);
-    std::shared_ptr<PointLight> pointLight3 = std::make_shared<PointLight>(positionLight3, colorLight3);
+    // Point3 positionLight1(-1.0, 0.0, 0.0);
+    // Color3 colorLight1(0.5, 0.5, 0.5);
+    // std::shared_ptr<PointLight> pointLight1 = std::make_shared<PointLight>(positionLight1, colorLight1);
+    // Point3 positionLight2(1.0, 0.0, 0.0);
+    // Color3 colorLight2(0.5, 0.5, 0.5);
+    // std::shared_ptr<PointLight> pointLight2 = std::make_shared<PointLight>(positionLight2, colorLight2);
+    // Point3 positionLight3(0.0, 10.0, 0.0);
+    // Color3 colorLight3(1.0, 1.0, 1.0);
+    // std::shared_ptr<PointLight> pointLight3 = std::make_shared<PointLight>(positionLight3, colorLight3);
+
+    // std::vector<std::shared_ptr<Object>> objects;
+    // objects.push_back(sphere1);
+    // objects.push_back(sphere2);
+    // objects.push_back(triangle1);
+    // objects.push_back(triangle2);
+    // BVH bvh_objects(objects);
 
     std::vector<std::shared_ptr<Object>> objects;
-    objects.push_back(sphere1);
-    objects.push_back(sphere2);
-    objects.push_back(triangle1);
-    objects.push_back(triangle2);
+    int NUM_SPHERES = 1000;
+    int root = (int) (std::round(std::sqrt(NUM_SPHERES)));
+    Color3 color(1.0, 0.0, 0.0);
+    double radius = VIEWPORT_HEIGHT / root / 3;
+    for(int i = 0; i < root; i++) {
+        for(int j = 0; j < root; j++) {
+            Point3 center(radius + (-VIEWPORT_HEIGHT / 2) + i * (radius * 3), radius + (-VIEWPORT_HEIGHT / 2) + j * (radius * 3), -1.0);
+            std::shared_ptr<Object> sphere = std::make_shared<Sphere>(color, center, radius);
+            objects.push_back(sphere);
+        }
+    }
+
     BVH bvh_objects(objects);
+
+    Point3 positionLight4(0.0, 0.0, 0.0);
+    Color3 colorLight4(1.0, 1.0, 1.0);
+    std::shared_ptr<PointLight> pointLight4 = std::make_shared<PointLight>(positionLight4, colorLight4);
 
     // Create the world
     World world(BACKGROUND, IMAGE, CAMERA, SAMPLES, bvh_objects);
+
+    // for(int i = 0; i < objects.size(); i++) {
+    //     world.addObject(objects[i]);
+    // }
 
     // Add objects to the world
     // world.addObject(plane1);
     // world.addObject(plane2);
     // world.addObject(plane3);
-    world.addObject(sphere1);
-    world.addObject(sphere2);
-    world.addObject(triangle1);
-    world.addObject(triangle2);
+    // world.addObject(sphere1);
+    // world.addObject(sphere2);
+    // world.addObject(triangle1);
+    // world.addObject(triangle2);
     // Add lights to the world
-    world.addLight(pointLight1);
-    world.addLight(pointLight2);
+    // world.addLight(pointLight1);
+    // world.addLight(pointLight2);
     // world.addLight(pointLight3);
+    world.addLight(pointLight4);
 
     auto t1 = std::chrono::high_resolution_clock::now();
     // Render the scene
     world.render(0.0, std::numeric_limits<double>::max());
     auto t2 = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> ms_double = t2 - t1;
-    std::cerr << ms_double.count() << "ms";
+    std::cerr << ms_double.count() << "ms" << "\n";
+
+    // Runtime for building BVH
+    t1 = std::chrono::high_resolution_clock::now();
+    BVH bvh_objects2(objects);
+    t2 = std::chrono::high_resolution_clock::now();
+    ms_double = t2 - t1;
+    std::cerr << ms_double.count() << "ms" << "\n";
 
 }
+
+// 1,000 spheres:
+// BVH building: 11.94 ms
+// BVH runtime: 2187.82 ms
+// Non-BVH runtime: 28761.4 ms
+
+// 10,000 spheres:
+// BVH building: 154.07 ms
+// BVH runtime: 4803.13 ms
+// Non-BVH runtime: 366637ms
+
+// 100,000 spheres:
+// BVH building: 1913.94 ms
+// BVH runtime: 7706.54 ms
+// Non-BVH runtime: Too long
