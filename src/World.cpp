@@ -5,12 +5,13 @@ World::World() {
     this->pixel_samples_ = std::vector<ImagePoint>(1);
 }
 
-World::World(Color3 background_color, Image image, Camera camera, int samples) {
+World::World(Color3 background_color, Image image, Camera camera, int samples, BVH& bvh_objects) {
     this->background_color_ = background_color;
     this->image_ = image;
     this->camera_ = camera;
     this->samples_ = samples;
     this->pixel_samples_ = std::vector<ImagePoint>(this->samples_);
+    this->bvh_objects_ = bvh_objects;
 }
 
 Color3 World::background_color() const {
@@ -64,6 +65,7 @@ std::shared_ptr<Object> World::hitDetection(Ray& ray, double minT, double maxT) 
     }
     // Return the closestObject
     return closestObject;
+    // return this->bvh_objects_.detectHit(ray);
 }
 
 Color3 World::litColor(std::shared_ptr<Object> hitObject, double minT, double maxT) {

@@ -45,7 +45,7 @@ bool Triangle::isHit(Ray& ray, double minT, double maxT) {
     if(v < 0.0 || (u + v) > 1.0) {
         return false;
     }
-    // Check if there is a hit and calcualate t
+    // Check if there is a hit and calculate t
     bool isHit = true;
     double t = f * (e2.dot(r));
     // If the hit is valid, store the info and return true

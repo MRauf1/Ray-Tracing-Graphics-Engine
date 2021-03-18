@@ -1,6 +1,7 @@
 #include "../catch.hpp"
 #include "../../src/data_structures/BVH.h"
 #include "../../src/objects/Sphere.h"
+#include "../../src/objects/Triangle.h"
 #include <iostream>
 
 TEST_CASE("Test BVH objects are sorted by midpoint") {
@@ -69,7 +70,7 @@ TEST_CASE("Test BVH constuction with 3 objects") {
     REQUIRE(true == (bvh.root()->right()->object() == object3));
 }
 
-TEST_CASE("Test BVH hit with 3 objects") {
+TEST_CASE("Test BVH hit with 3 spheres") {
     Color3 color(1.0, 1.0, 1.0);
     Point3 center1(5.0, 0.0, -6.0);
     Point3 center2(0.0, 2.0, -3.0);
@@ -90,4 +91,25 @@ TEST_CASE("Test BVH hit with 3 objects") {
     Ray ray(origin, direction);
     std::shared_ptr<Object> hitObject = bvh.detectHit(ray);
     REQUIRE(true == (hitObject == object2));
+}
+
+TEST_CASE("Test BVH hit with 2 triangles") {
+    Color3 color(1.0, 1.0, 1.0);
+    Point3 triangle1vertex1(-3.0, -1.0, -1.0);
+    Point3 triangle1vertex2(3.0, -1.0, -1.0);
+    Point3 triangle1vertex3(0.0, 3.0, -1.0);
+    Point3 triangle2vertex1(5.0, 0.0, -2.0);
+    Point3 triangle2vertex2(0.0, 2.0, -2.0);
+    Point3 triangle2vertex3(7.0, 0.0, -2.0);
+    std::shared_ptr<Object> object1 = std::make_shared<Triangle>(color, triangle1vertex1, triangle1vertex2, triangle1vertex3);
+    std::shared_ptr<Object> object2 = std::make_shared<Triangle>(color, triangle2vertex1, triangle2vertex2, triangle2vertex3);
+    std::vector<std::shared_ptr<Object>> objects;
+    objects.push_back(object1);
+    objects.push_back(object2);
+    BVH bvh(objects);
+    Point3 origin(0.0, 0.0, 0.0);
+    Vec3 direction(0.0, 0.0, -1.0);
+    Ray ray(origin, direction);
+    std::shared_ptr<Object> hitObject = bvh.detectHit(ray);
+    REQUIRE(true == (hitObject == object1));
 }

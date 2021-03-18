@@ -27,9 +27,9 @@ std::shared_ptr<AABB> BVH::createAABB(int i, int j) {
     double minX = std::numeric_limits<double>::max();
     double minY = std::numeric_limits<double>::max();
     double minZ = std::numeric_limits<double>::max();
-    double maxX = std::numeric_limits<double>::min();
-    double maxY = std::numeric_limits<double>::min();
-    double maxZ = std::numeric_limits<double>::min();
+    double maxX = std::numeric_limits<double>::lowest();
+    double maxY = std::numeric_limits<double>::lowest();
+    double maxZ = std::numeric_limits<double>::lowest();
     // Go through all the points
     for(int k = i; k <= j; k++) {
         // Update the minimums and maximums
@@ -55,8 +55,8 @@ std::shared_ptr<BVHNode> BVH::createBVH(int i, int j) {
         return node;
     }
     // Interior node
-    std::shared_ptr<BVHNode> left = this->createBVH(i, (int) ((j - i) / 2));
-    std::shared_ptr<BVHNode> right = this->createBVH((int) ((j - i) / 2) + 1, j);
+    std::shared_ptr<BVHNode> left = this->createBVH(i, i + (int) ((j - i) / 2));
+    std::shared_ptr<BVHNode> right = this->createBVH(i + (int) ((j - i) / 2) + 1, j);
     std::shared_ptr<AABB> aabb = this->createAABB(i, j);
     std::shared_ptr<BVHNode> node = std::make_shared<BVHNode>(left, right, aabb, nullptr);
     return node;

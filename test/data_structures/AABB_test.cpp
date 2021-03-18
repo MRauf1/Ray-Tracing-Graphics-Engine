@@ -86,3 +86,33 @@ TEST_CASE("Test diagonal hit") {
     Ray ray(origin, direction);
     REQUIRE(true == aabb.isHit(ray));
 }
+
+TEST_CASE("Test 0 length hit") {
+    Point3 min_point(0.0, -1.0, -2.0);
+    Point3 max_point(0.0, 1.0, -1.0);
+    AABB aabb(min_point, max_point);
+    Point3 origin(1.0, 0.0, -1.5);
+    Vec3 direction(-1.0, 0.0, 0.0);
+    Ray ray(origin, direction);
+    REQUIRE(true == aabb.isHit(ray));
+}
+
+TEST_CASE("Test 0 height hit") {
+    Point3 min_point(-1.0, 0.0, -2.0);
+    Point3 max_point(1.0, 0.0, -1.0);
+    AABB aabb(min_point, max_point);
+    Point3 origin(0.0, 1.0, -1.5);
+    Vec3 direction(0.0, -1.0, 0.0);
+    Ray ray(origin, direction);
+    REQUIRE(true == aabb.isHit(ray));
+}
+
+TEST_CASE("Test 0 depth hit") {
+    Point3 min_point(-3.0, -1.0, -1.0);
+    Point3 max_point(3.0, 3.0, -1.0);
+    AABB aabb(min_point, max_point);
+    Point3 origin(0.0, 0.0, 0.0);
+    Vec3 direction(0.0, 0.0, -1.0);
+    Ray ray(origin, direction);
+    REQUIRE(true == aabb.isHit(ray));
+}

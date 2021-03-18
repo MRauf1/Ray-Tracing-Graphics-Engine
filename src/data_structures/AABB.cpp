@@ -75,5 +75,7 @@ bool AABB::isHit(Ray& ray) {
     }
     // Return the hit result
     double epsilon = 0.00001;
-    return (t0 < t1 && t1 > epsilon);
+    // t0 < t1 from lecture slides changed to t0 <= t1 to accomodate objects
+    // whose length, height, or depth are 0 
+    return (t0 <= t1 && t1 > epsilon);
 }

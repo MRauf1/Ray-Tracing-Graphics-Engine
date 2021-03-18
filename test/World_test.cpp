@@ -25,8 +25,11 @@ Camera CAMERA(ASPECT_RATIO, VIEWPORT_HEIGHT, FOCAL_LENGTH, POSITION, VIEW_DIR, U
 // World settings
 int SAMPLES = 16;
 
+// BVH settings
+BVH BVH_OBJECTS;
+
 TEST_CASE("Test World constructor") {
-    World world(BACKGROUND, IMAGE, CAMERA, SAMPLES);
+    World world(BACKGROUND, IMAGE, CAMERA, SAMPLES, BVH_OBJECTS);
     REQUIRE(BACKGROUND[0] == world.background_color()[0]);
     REQUIRE(BACKGROUND[1] == world.background_color()[0]);
     REQUIRE(BACKGROUND[2] == world.background_color()[0]);
@@ -34,7 +37,7 @@ TEST_CASE("Test World constructor") {
 }
 
 TEST_CASE("Test add object") {
-    World world(BACKGROUND, IMAGE, CAMERA, SAMPLES);
+    World world(BACKGROUND, IMAGE, CAMERA, SAMPLES, BVH_OBJECTS);
     Color3 color(0.5, 0.5, 0.5);
     Point3 position(1.0, 0.0, 0.0);
     Vec3 normal(1.0, 0.0, 0.0);
@@ -45,7 +48,7 @@ TEST_CASE("Test add object") {
 }
 
 TEST_CASE("Test hitDetection with no objects") {
-    World world(BACKGROUND, IMAGE, CAMERA, SAMPLES);
+    World world(BACKGROUND, IMAGE, CAMERA, SAMPLES, BVH_OBJECTS);
     Point3 rayPoint(0.0, 0.0, 0.0);
     Vec3 rayDirection(1.0, 1.0, 1.0);
     Ray ray(rayPoint, rayDirection);
@@ -53,7 +56,7 @@ TEST_CASE("Test hitDetection with no objects") {
 }
 
 TEST_CASE("Test hitDetection with object, but no hit") {
-    World world(BACKGROUND, IMAGE, CAMERA, SAMPLES);
+    World world(BACKGROUND, IMAGE, CAMERA, SAMPLES, BVH_OBJECTS);
     Color3 color(0.5, 0.5, 0.5);
     Point3 position(0.0, 0.0, 3.0);
     Vec3 normal(0.0, 0.0, 1.0);
@@ -66,7 +69,7 @@ TEST_CASE("Test hitDetection with object, but no hit") {
 }
 
 TEST_CASE("Test hitDetection with object and hit") {
-    World world(BACKGROUND, IMAGE, CAMERA, SAMPLES);
+    World world(BACKGROUND, IMAGE, CAMERA, SAMPLES, BVH_OBJECTS);
     Color3 color(0.5, 0.5, 0.5);
     Point3 position(0.0, 0.0, -3.0);
     Vec3 normal(0.0, 0.0, 1.0);
@@ -80,7 +83,7 @@ TEST_CASE("Test hitDetection with object and hit") {
 }
 
 TEST_CASE("Test hitDetection with multiple objects and closest hit") {
-    World world(BACKGROUND, IMAGE, CAMERA, SAMPLES);
+    World world(BACKGROUND, IMAGE, CAMERA, SAMPLES, BVH_OBJECTS);
     Color3 color1(0.5, 0.5, 0.5);
     Point3 position1(0.0, 0.0, -3.0);
     Vec3 normal1(0.0, 0.0, 1.0);

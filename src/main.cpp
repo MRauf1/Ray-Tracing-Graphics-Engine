@@ -34,9 +34,6 @@ int main() {
     // Number of samples for multijittered sampling
     int SAMPLES = 16;
 
-    // Create the world
-    World world(BACKGROUND, IMAGE, CAMERA, SAMPLES);
-
     // Objects in the scene
     Color3 colorPlane1(1.0, 0.0, 0.0);
     Point3 positionPlane1(0.0, -1.0, 0.0);
@@ -82,10 +79,20 @@ int main() {
     Color3 colorLight3(1.0, 1.0, 1.0);
     std::shared_ptr<PointLight> pointLight3 = std::make_shared<PointLight>(positionLight3, colorLight3);
 
+    std::vector<std::shared_ptr<Object>> objects;
+    objects.push_back(sphere1);
+    objects.push_back(sphere2);
+    objects.push_back(triangle1);
+    objects.push_back(triangle2);
+    BVH bvh_objects(objects);
+
+    // Create the world
+    World world(BACKGROUND, IMAGE, CAMERA, SAMPLES, bvh_objects);
+
     // Add objects to the world
-    world.addObject(plane1);
-    world.addObject(plane2);
-    world.addObject(plane3);
+    // world.addObject(plane1);
+    // world.addObject(plane2);
+    // world.addObject(plane3);
     world.addObject(sphere1);
     world.addObject(sphere2);
     world.addObject(triangle1);

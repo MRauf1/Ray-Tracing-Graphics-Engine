@@ -3,6 +3,7 @@
 
 #include "../math/Vec3.h"
 #include "../math/Ray.h"
+#include <iostream>
 
 class AABB {
 
