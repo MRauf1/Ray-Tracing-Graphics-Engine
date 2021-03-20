@@ -4,5 +4,5 @@ project(GraphicsEngine  VERSION 1.0
                         DESCRIPTION "Ray Tracing Graphics Engine"
                         LANGUAGES CXX)
 
-set(object_files Object.cpp Plane.cpp Sphere.cpp Triangle.cpp)
+set(object_files Object.cpp Plane.cpp Sphere.cpp Triangle.cpp Mesh.cpp)
 add_library(objects ${object_files})

@@ -11,7 +11,7 @@
 #include <chrono>
 
 int main() {
-    std::shared_ptr<AABB> test = std::make_shared<AABB>();
+    
     // Background color
     Color3 BACKGROUND(0.0, 0.0, 0.0);
 

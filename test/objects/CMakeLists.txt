@@ -12,4 +12,4 @@ project(EngineTest  VERSION 1.0
 set(test_objects_files  ../src/objects/Object.cpp ../src/objects/Plane.cpp
                         ../src/objects/Sphere.cpp ../src/objects/Triangle.cpp
                         objects/Plane_test.cpp objects/Sphere_test.cpp objects/Triangle_test.cpp
-                        objects/Object_test.cpp PARENT_SCOPE)
+                        objects/Object_test.cpp ../src/objects/Mesh.cpp objects/Mesh_test.cpp PARENT_SCOPE)
