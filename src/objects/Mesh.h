@@ -25,7 +25,7 @@ class Mesh : public Object {
          */
         Mesh();
 
-        Mesh(std::string file_name);
+        Mesh(Color3 color, std::string file_name);
 
         std::vector<std::shared_ptr<Object>> objects() const;
 

@@ -2,11 +2,13 @@
 
 Mesh::Mesh() {
     this->color_ = Color3(1.0, 1.0, 1.0);
+    this->makeAABB();
 }
 
-Mesh::Mesh(std::string file_name) {
-    this->color_ = Color3(1.0, 1.0, 1.0);
+Mesh::Mesh(Color3 color, std::string file_name) {
+    this->color_ = color;
     this->readMesh(file_name);
+    this->makeAABB();
 }
 
 std::vector<std::shared_ptr<Object>> Mesh::objects() const {
@@ -14,6 +16,10 @@ std::vector<std::shared_ptr<Object>> Mesh::objects() const {
 }
 
 void Mesh::readMesh(std::string file_name) {
+    // ----------------- START NOTE -----------------
+    // Code for reading files is taken from:
+    // https://stackoverflow.com/questions/37957080/can-i-use-2-or-more-delimiters-in-c-function-getline
+    // ----------------- END NOTE -----------------
     // Initialize vector which will keep track of the vertices
     std::vector<Point3> vertices;
     // Open the mesh file
@@ -90,5 +96,25 @@ bool Mesh::isHit(Ray& ray, double minT, double maxT) {
 }
 
 void Mesh::makeAABB() {
-
+    // Initialize values for the min and max points
+    double minX = std::numeric_limits<double>::max();
+    double minY = std::numeric_limits<double>::max();
+    double minZ = std::numeric_limits<double>::max();
+    double maxX = std::numeric_limits<double>::lowest();
+    double maxY = std::numeric_limits<double>::lowest();
+    double maxZ = std::numeric_limits<double>::lowest();
+    // Go through all the points
+    for(int i = 0; i < this->objects_.size(); i++) {
+        // Update the minimums and maximums
+        minX = std::min(minX, this->objects_[i]->aabb()->min_point()[0]);
+        minY = std::min(minY, this->objects_[i]->aabb()->min_point()[1]);
+        minZ = std::min(minZ, this->objects_[i]->aabb()->min_point()[2]);
+        maxX = std::max(maxX, this->objects_[i]->aabb()->max_point()[0]);
+        maxY = std::max(maxY, this->objects_[i]->aabb()->max_point()[1]);
+        maxZ = std::max(maxZ, this->objects_[i]->aabb()->max_point()[2]);
+    }
+    // Create the AABB and return it
+    Point3 min_point(minX, minY, minZ);
+    Point3 max_point(maxX, maxY, maxZ);
+    this->aabb_ = std::make_shared<AABB>(min_point, max_point);
 }
