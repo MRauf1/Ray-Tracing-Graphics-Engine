@@ -9,6 +9,7 @@
 #include "objects/Plane.h"
 #include "objects/Sphere.h"
 #include "objects/Triangle.h"
+#include "objects/Mesh.h"
 #include "lights/PointLight.h"
 #include "ImagePoint.h"
 #include "data_structures/BVH.h"

@@ -51,7 +51,7 @@ bool Triangle::isHit(Ray& ray, double minT, double maxT) {
     // If the hit is valid, store the info and return true
     if(isHit && t >= minT && t <= maxT) {
         this->hitInfo_.hitpoint = ray.at(t);
-        this->hitInfo_.normal = e2.cross(e1);
+        this->hitInfo_.normal = e1.cross(e2);
         this->hitInfo_.t = t;
         return true;
     }

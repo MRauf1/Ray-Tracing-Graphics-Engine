@@ -8,6 +8,8 @@ Mesh::Mesh() {
 Mesh::Mesh(Color3 color, std::string file_name) {
     this->color_ = color;
     this->readMesh(file_name);
+    this->bvh_ = BVH(this->objects_);
+    // std::cout << this->bvh_.objects().size() << std::endl;
     this->makeAABB();
 }
 
@@ -78,7 +80,7 @@ void Mesh::readMesh(std::string file_name) {
                     // If we've gone through the 3 values, face is done
                     // so we can create it and add it to the vector
                     if(i == 0) {
-                        std::shared_ptr<Object> temp = std::make_shared<Triangle>(this->color_, vertices[face[0]], vertices[face[1]], vertices[face[2]]);
+                        std::shared_ptr<Object> temp = std::make_shared<Triangle>(this->color_, vertices[face[0] - 1], vertices[face[1] - 1], vertices[face[2] - 1]);
                         this->objects_.push_back(temp);
                     }
                 }
@@ -92,6 +94,13 @@ void Mesh::readMesh(std::string file_name) {
 }
 
 bool Mesh::isHit(Ray& ray, double minT, double maxT) {
+    std::shared_ptr<Object> hitObject = this->bvh_.detectHit(ray);
+    if(hitObject == nullptr) {
+        return false;
+    }
+    this->hitInfo_.hitpoint = hitObject->hitInfo().hitpoint;
+    this->hitInfo_.normal = hitObject->hitInfo().normal;
+    this->hitInfo_.t = hitObject->hitInfo().t;
     return true;
 }
 

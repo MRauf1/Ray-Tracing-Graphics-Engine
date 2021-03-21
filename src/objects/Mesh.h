@@ -4,6 +4,7 @@
 #include "../math/Vec3.h"
 #include "Object.h"
 #include "Triangle.h"
+#include "../data_structures/BVH.h"
 #include <memory>
 #include <vector>
 #include <string>
@@ -16,6 +17,7 @@ class Mesh : public Object {
     private:
 
         std::vector<std::shared_ptr<Object>> objects_;
+        BVH bvh_;
 
 
     public:
