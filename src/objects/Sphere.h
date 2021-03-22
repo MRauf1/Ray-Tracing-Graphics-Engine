@@ -50,10 +50,13 @@ class Sphere : public Object {
          * @param  ray  Ray to test the hit for
          * @param  minT Minimum t value to be considered a hit
          * @param  maxT Maximum t value to be considered a hit
-         * @return      [description]
+         * @return      Bool for whether the sphere was hit or not
          */
         bool isHit(Ray& ray, double minT, double maxT) override;
 
+        /**
+         * Creates and stores the AABB for the object
+         */
         void makeAABB() override;
 
 };

@@ -42,7 +42,7 @@ class AABB {
         /**
          * Checks if the AABB is hit by the ray
          * @param  ray  Ray to check collision with
-         * @return   Bool for whether the ray collided with AABB
+         * @return      Bool for whether the ray collided with AABB
          */
         bool isHit(Ray& ray);
 

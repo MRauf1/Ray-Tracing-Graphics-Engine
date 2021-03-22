@@ -89,12 +89,17 @@ Color3 World::litColor(std::shared_ptr<Object> hitObject, double minT, double ma
         Ray lightRay = this->lights_[i]->lightDirection(hitPoint, true);
         std::shared_ptr<Object> shadowObject = this->hitDetection(lightRay, minT, maxT);
         // If the shadow ray doesn't pass through any objects in between the hitpoint
-        // and the light source, modify the color using diffuse shading
+        // and the light source, modify the color using diffuse and specular shading
         // Otherwise, the color value remains at black for the hard shadow
         if(shadowObject == nullptr || !(shadowObject->hitInfo().t > 0.0 && shadowObject->hitInfo().t < 1.0 )) {
             Vec3 lightDirection = lightRay.direction().normalize();
             double cosFactor = normalDirection.dot(lightDirection);
             shade = shade + hitObject->color().elemProduct(this->lights_[i]->color()) * cosFactor;
+            Vec3 reflectionVector = (lightDirection - normalDirection * 2 * (lightDirection.dot(normalDirection))).normalize();
+            Vec3 viewVector = (this->camera_.position() - hitPoint).normalize();
+            double specularComponent = std::max(reflectionVector.dot(viewVector), 0.0);
+            double specularWeight = std::pow(specularComponent, 100.0);
+            shade = shade + hitObject->color().elemProduct(this->lights_[i]->color()) * specularWeight;
             shade.cutToUnit();
         }
     }

@@ -80,14 +80,12 @@ std::shared_ptr<Object> BVH::detectHitHelper(Ray& ray, std::shared_ptr<BVHNode> 
         // Else, return nullptr
         return curr->object()->isHit(ray, 0, 999999) ? curr->object() : nullptr;
     }
+    // Recurse through both subtrees
     std::shared_ptr<Object> left = this->detectHitHelper(ray, curr->left());
-    // if(output != nullptr) {
-    //     return output;
-    // }
-    // output = this->detectHitHelper(ray, curr->right());
-    // return output;
     std::shared_ptr<Object> right = this->detectHitHelper(ray, curr->right());
-
+    // If both paths result in a hit object, select the closer one
+    // If only one path hits, return that object
+    // If none hit, return nullptr
     if(left != nullptr && right != nullptr) {
         return left->hitInfo().t < right->hitInfo().t ? left : right;
     } else if(left != nullptr && right == nullptr) {
@@ -101,6 +99,7 @@ std::shared_ptr<Object> BVH::detectHitHelper(Ray& ray, std::shared_ptr<BVHNode> 
 
 
 bool compareObject(std::shared_ptr<Object> object1, std::shared_ptr<Object> object2) {
+    // Calculate the AABB extremities using the x-axis
     double curr = object1->aabb()->min_point()[0] + (object1->aabb()->max_point()[0] - object1->aabb()->min_point()[0]) / 2;
     double other = object2->aabb()->min_point()[0] + (object2->aabb()->max_point()[0] - object2->aabb()->min_point()[0]) / 2;
     return curr < other;

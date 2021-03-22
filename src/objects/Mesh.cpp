@@ -104,38 +104,48 @@ void Mesh::readMesh(std::string file_name) {
 }
 
 void Mesh::calculateVertexNormals() {
+    // Initialize the vertex normals and set them to 0 vector
     this->vertex_normals_ = std::vector<Vec3>(this->vertices_.size());
     for(int i = 0; i < this->vertex_normals_.size(); i++) {
         Vec3 temp(0.0, 0.0, 0.0);
         this->vertex_normals_[i] = temp;
     }
+    // Go through all the faces
     for(int i = 0; i < this->faces_.size(); i++) {
+        // Retrieve the necessary data for the calculations
         Point3 vertex1 = this->vertices_[this->faces_[i][0] - 1];
         Point3 vertex2 = this->vertices_[this->faces_[i][1] - 1];
         Point3 vertex3 = this->vertices_[this->faces_[i][2] - 1];
         Vec3 edge1 = vertex2 - vertex1;
         Vec3 edge2 = vertex3 - vertex1;
         Vec3 normal = edge1.cross(edge2);
+        // Apply triangle area-weighting
         double factor = 0.5 * normal.magnitude();
         normal = normal * factor;
+        // Update the vertex normals
         this->vertex_normals_[this->faces_[i][0] - 1] = this->vertex_normals_[this->faces_[i][0] - 1] + normal;
         this->vertex_normals_[this->faces_[i][1] - 1] = this->vertex_normals_[this->faces_[i][1] - 1] + normal;
         this->vertex_normals_[this->faces_[i][2] - 1] = this->vertex_normals_[this->faces_[i][2] - 1] + normal;
     }
+    // Normalize the vertex normals
     for(int i = 0; i < this->vertex_normals_.size(); i++) {
         this->vertex_normals_[i] = this->vertex_normals_[i].normalize();
     }
 }
 
 bool Mesh::isHit(Ray& ray, double minT, double maxT) {
+    // Check if the mesh was hit
     std::shared_ptr<Object> hitObject = this->bvh_.detectHit(ray);
+    // If mesh was not hit, return false
     if(hitObject == nullptr) {
         return false;
     }
+    // Update the hitInfo for the hit
     std::shared_ptr<Triangle> temp = std::static_pointer_cast<Triangle>(hitObject);
     this->hitInfo_.hitpoint = temp->hitInfo().hitpoint;
-    this->hitInfo_.normal = temp->hitInfo().normal;
+    // this->hitInfo_.normal = temp->hitInfo().normal;
     this->hitInfo_.t = temp->hitInfo().t;
+    // Retrieve the necessary data for the barycentric interpolation
     Point3 v1 = temp->point1();
     Point3 v2 = temp->point2();
     Point3 v3 = temp->point3();
@@ -151,7 +161,9 @@ bool Mesh::isHit(Ray& ray, double minT, double maxT) {
     Vec3 v1_normal = this->vertex_normals_[v1.index()];
     Vec3 v2_normal = this->vertex_normals_[v2.index()];
     Vec3 v3_normal = this->vertex_normals_[v3.index()];
+    // Apply barycentric interpolation to the normal
     this->hitInfo_.normal = v1_normal * b1 + v2_normal * b2 + v3_normal * b3;
+    // Return true since the mesh was hit
     return true;
 }
 

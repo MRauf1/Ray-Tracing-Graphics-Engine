@@ -62,6 +62,9 @@ class Triangle : public Object {
          */
         bool isHit(Ray& ray, double minT, double maxT) override;
 
+        /**
+         * Creates and stores the AABB for the object
+         */
         void makeAABB() override;
 
 };
