@@ -9,6 +9,7 @@ class Vec3 : public Vec<Vec3> {
     private:
 
         double data_[3];
+        int index_;
 
 
     public:
@@ -23,6 +24,8 @@ class Vec3 : public Vec<Vec3> {
          * @param data  Double array containing the Vec3 values
          */
         Vec3(double data[3]);
+
+        Vec3(double x, double y, double z, int index);
 
         /**
          * Parameterized Vec3 constructor using double values
@@ -49,6 +52,10 @@ class Vec3 : public Vec<Vec3> {
          * @return Value z of Vec3
          */
         double z() const;
+
+        int index() const;
+
+        void index(int newIndex);
 
 
         /**

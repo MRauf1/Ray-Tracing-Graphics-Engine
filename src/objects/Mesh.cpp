@@ -2,6 +2,7 @@
 
 Mesh::Mesh() {
     this->color_ = Color3(1.0, 1.0, 1.0);
+    this->calculateVertexNormals();
     this->makeAABB();
 }
 
@@ -9,7 +10,7 @@ Mesh::Mesh(Color3 color, std::string file_name) {
     this->color_ = color;
     this->readMesh(file_name);
     this->bvh_ = BVH(this->objects_);
-    // std::cout << this->bvh_.objects().size() << std::endl;
+    this->calculateVertexNormals();
     this->makeAABB();
 }
 
@@ -23,7 +24,7 @@ void Mesh::readMesh(std::string file_name) {
     // https://stackoverflow.com/questions/37957080/can-i-use-2-or-more-delimiters-in-c-function-getline
     // ----------------- END NOTE -----------------
     // Initialize vector which will keep track of the vertices
-    std::vector<Point3> vertices;
+    // std::vector<Point3> vertices;
     // Open the mesh file
     std::ifstream file(file_name);
     if(file.is_open()) {
@@ -42,7 +43,7 @@ void Mesh::readMesh(std::string file_name) {
         char curr = 'n';
         bool past_first = false;
         double vertex[3];
-        int face[3];
+        std::vector<int> face = std::vector<int>(3);
         int i = 0;
         // Go through each line
         while(std::getline(file, line)) {
@@ -71,7 +72,7 @@ void Mesh::readMesh(std::string file_name) {
                     // so we can create it and add it to the vector
                     if(i == 0) {
                         Point3 temp(vertex);
-                        vertices.push_back(temp);
+                        this->vertices_.push_back(temp);
                     }
                 } else if(past_first && curr == 'f') {
                     // Update the face index
@@ -80,8 +81,17 @@ void Mesh::readMesh(std::string file_name) {
                     // If we've gone through the 3 values, face is done
                     // so we can create it and add it to the vector
                     if(i == 0) {
-                        std::shared_ptr<Object> temp = std::make_shared<Triangle>(this->color_, vertices[face[0] - 1], vertices[face[1] - 1], vertices[face[2] - 1]);
+                        Point3 v1(this->vertices_[face[0] - 1].x(), this->vertices_[face[0] - 1].y(), this->vertices_[face[0] - 1].z(), face[0] - 1);
+                        Point3 v2(this->vertices_[face[1] - 1].x(), this->vertices_[face[1] - 1].y(), this->vertices_[face[1] - 1].z(), face[1] - 1);
+                        Point3 v3(this->vertices_[face[2] - 1].x(), this->vertices_[face[2] - 1].y(), this->vertices_[face[2] - 1].z(), face[2] - 1);
+                        std::shared_ptr<Object> temp = std::make_shared<Triangle>(this->color_, v1, v2, v3);
+                        // std::shared_ptr<Object> temp = std::make_shared<Triangle>(this->color_, this->vertices_[face[0] - 1], this->vertices_[face[1] - 1], this->vertices_[face[2] - 1]);
+                        // std::cout << face[2] - 1 << std::endl;
+                        // this->vertices_[face[0] - 1].index(face[0] - 1);
+                        // this->vertices_[face[1] - 1].index(face[1] - 1);
+                        // this->vertices_[face[2] - 1].index(face[2] - 1);
                         this->objects_.push_back(temp);
+                        this->faces_.push_back(face);
                     }
                 }
                 // Update past_first
@@ -93,14 +103,55 @@ void Mesh::readMesh(std::string file_name) {
     }
 }
 
+void Mesh::calculateVertexNormals() {
+    this->vertex_normals_ = std::vector<Vec3>(this->vertices_.size());
+    for(int i = 0; i < this->vertex_normals_.size(); i++) {
+        Vec3 temp(0.0, 0.0, 0.0);
+        this->vertex_normals_[i] = temp;
+    }
+    for(int i = 0; i < this->faces_.size(); i++) {
+        Point3 vertex1 = this->vertices_[this->faces_[i][0] - 1];
+        Point3 vertex2 = this->vertices_[this->faces_[i][1] - 1];
+        Point3 vertex3 = this->vertices_[this->faces_[i][2] - 1];
+        Vec3 edge1 = vertex2 - vertex1;
+        Vec3 edge2 = vertex3 - vertex1;
+        Vec3 normal = edge1.cross(edge2);
+        double factor = 0.5 * normal.magnitude();
+        normal = normal * factor;
+        this->vertex_normals_[this->faces_[i][0] - 1] = this->vertex_normals_[this->faces_[i][0] - 1] + normal;
+        this->vertex_normals_[this->faces_[i][1] - 1] = this->vertex_normals_[this->faces_[i][1] - 1] + normal;
+        this->vertex_normals_[this->faces_[i][2] - 1] = this->vertex_normals_[this->faces_[i][2] - 1] + normal;
+    }
+    for(int i = 0; i < this->vertex_normals_.size(); i++) {
+        this->vertex_normals_[i] = this->vertex_normals_[i].normalize();
+    }
+}
+
 bool Mesh::isHit(Ray& ray, double minT, double maxT) {
     std::shared_ptr<Object> hitObject = this->bvh_.detectHit(ray);
     if(hitObject == nullptr) {
         return false;
     }
-    this->hitInfo_.hitpoint = hitObject->hitInfo().hitpoint;
-    this->hitInfo_.normal = hitObject->hitInfo().normal;
-    this->hitInfo_.t = hitObject->hitInfo().t;
+    std::shared_ptr<Triangle> temp = std::static_pointer_cast<Triangle>(hitObject);
+    this->hitInfo_.hitpoint = temp->hitInfo().hitpoint;
+    this->hitInfo_.normal = temp->hitInfo().normal;
+    this->hitInfo_.t = temp->hitInfo().t;
+    Point3 v1 = temp->point1();
+    Point3 v2 = temp->point2();
+    Point3 v3 = temp->point3();
+    Vec3 e1 = v3 - v2;
+    Vec3 e2 = v1 - v3;
+    Vec3 e3 = v2 - v1;
+    Vec3 d1 = this->hitInfo_.hitpoint - v1;
+    Vec3 d2 = this->hitInfo_.hitpoint - v2;
+    Vec3 d3 = this->hitInfo_.hitpoint - v3;
+    double b1 = (e1.cross(d3).dot(temp->hitInfo().normal)) / (e1.cross(e2).dot(temp->hitInfo().normal));
+    double b2 = (e2.cross(d1).dot(temp->hitInfo().normal)) / (e1.cross(e2).dot(temp->hitInfo().normal));
+    double b3 = (e3.cross(d2).dot(temp->hitInfo().normal)) / (e1.cross(e2).dot(temp->hitInfo().normal));
+    Vec3 v1_normal = this->vertex_normals_[v1.index()];
+    Vec3 v2_normal = this->vertex_normals_[v2.index()];
+    Vec3 v3_normal = this->vertex_normals_[v3.index()];
+    this->hitInfo_.normal = v1_normal * b1 + v2_normal * b2 + v3_normal * b3;
     return true;
 }
 

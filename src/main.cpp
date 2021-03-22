@@ -17,14 +17,14 @@ int main() {
 
     // Image settings
     double ASPECT_RATIO = 1.0;
-    int WIDTH = 200;
+    int WIDTH = 400;
 
     Image IMAGE(ASPECT_RATIO, WIDTH);
 
     // Camera settings
     double VIEWPORT_HEIGHT = 2.0;
-    double FOCAL_LENGTH = 4.0;
-    Point3 POSITION(0.0, 0.0, 3.0);
+    double FOCAL_LENGTH = 2.0;
+    Point3 POSITION(0.0, 0.0, 1.0);
     Vec3 VIEW_DIR(0.0, 0.0, -1.0); // VIEW_DIR and UP_DIR can't be parallel
     Vec3 UP_DIR(0.0, 1.0, 0.0);
     Projection PROJECTION = PERSPECTIVE;
@@ -69,10 +69,10 @@ int main() {
     // std::shared_ptr<Object> triangle2 = std::make_shared<Triangle>(colorTriangle1, pointTriangle2_1, pointTriangle2_2, pointTriangle2_3);
 
     // Lights in the scene
-    Point3 positionLight1(-1.0, 0.0, 0.0);
+    Point3 positionLight1(-5.0, 0.0, 0.0);
     Color3 colorLight1(0.5, 0.5, 0.5);
     std::shared_ptr<PointLight> pointLight1 = std::make_shared<PointLight>(positionLight1, colorLight1);
-    Point3 positionLight2(1.0, 0.0, 0.0);
+    Point3 positionLight2(5.0, 0.0, 0.0);
     Color3 colorLight2(0.5, 0.5, 0.5);
     std::shared_ptr<PointLight> pointLight2 = std::make_shared<PointLight>(positionLight2, colorLight2);
     Point3 positionLight3(0.0, 10.0, 0.0);
@@ -100,14 +100,13 @@ int main() {
     // }
 
     Color3 color(1.0, 0.0, 0.0);
-    std::shared_ptr<Object> object = std::make_shared<Mesh>(color, "../meshes/teapot.obj");
+    std::shared_ptr<Object> object = std::make_shared<Mesh>(color, "../meshes/cow.obj");
     // std::cout << object->aabb()->min_point()[0] << "," << object->aabb()->min_point()[1] << "," << object->aabb()->min_point()[2] << std::endl;
     // std::cout << object->aabb()->max_point()[0] << "," << object->aabb()->max_point()[1] << "," << object->aabb()->max_point()[2] << std::endl;
     objects.push_back(object);
     BVH bvh_objects(objects);
 
-    // Point3 positionLight4(0.0, 10.0, 0.0);
-    Point3 positionLight4(0.0, 0.0, 3.0);
+    Point3 positionLight4(0.0, 0.5, 3.0);
     Color3 colorLight4(1.0, 1.0, 1.0);
     std::shared_ptr<PointLight> pointLight4 = std::make_shared<PointLight>(positionLight4, colorLight4);
 

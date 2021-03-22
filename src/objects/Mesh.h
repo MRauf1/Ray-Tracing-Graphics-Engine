@@ -17,6 +17,9 @@ class Mesh : public Object {
     private:
 
         std::vector<std::shared_ptr<Object>> objects_;
+        std::vector<Point3> vertices_;
+        std::vector<std::vector<int>> faces_;
+        std::vector<Vec3> vertex_normals_;
         BVH bvh_;
 
 
@@ -32,6 +35,8 @@ class Mesh : public Object {
         std::vector<std::shared_ptr<Object>> objects() const;
 
         void readMesh(std::string file_name);
+
+        void calculateVertexNormals();
 
         bool isHit(Ray& ray, double minT, double maxT) override;
 

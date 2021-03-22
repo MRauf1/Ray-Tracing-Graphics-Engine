@@ -12,6 +12,13 @@ Vec3::Vec3(double data[3]) {
     this->data_[2] = data[2];
 }
 
+Vec3::Vec3(double x, double y, double z, int index) {
+    this->data_[0] = x;
+    this->data_[1] = y;
+    this->data_[2] = z;
+    this->index_ = index;
+}
+
 Vec3::Vec3(double x, double y, double z) {
     this->data_[0] = x;
     this->data_[1] = y;
@@ -28,6 +35,14 @@ double Vec3::y() const {
 
 double Vec3::z() const {
     return this->data_[2];
+}
+
+int Vec3::index() const {
+    return this->index_;
+}
+
+void Vec3::index(int newIndex) {
+    this->index_ = newIndex;
 }
 
 double Vec3::operator[](int i) const {
