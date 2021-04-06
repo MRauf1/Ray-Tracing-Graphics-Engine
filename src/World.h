@@ -10,7 +10,9 @@
 #include "objects/Sphere.h"
 #include "objects/Triangle.h"
 #include "objects/Mesh.h"
+#include "objects/XYRectangle.h"
 #include "lights/PointLight.h"
+#include "lights/XYRectangleLight.h"
 #include "ImagePoint.h"
 #include "data_structures/BVH.h"
 #include <vector>
@@ -20,6 +22,7 @@
 #include <utility>
 #include <cmath>
 #include <random>
+#include <typeinfo>
 
 class World {
 
@@ -31,7 +34,7 @@ class World {
         int samples_;
         std::vector<ImagePoint> pixel_samples_;
         std::vector<std::shared_ptr<Object>> objects_;
-        std::vector<std::shared_ptr<PointLight>> lights_;
+        std::vector<std::shared_ptr<XYRectangleLight>> lights_;
         BVH bvh_objects_;
 
 
@@ -85,7 +88,7 @@ class World {
          * Getter for the vector of PointLight pointers
          * Vector stores all of the point lights in the world
          */
-        std::vector<std::shared_ptr<PointLight>> lights() const;
+        std::vector<std::shared_ptr<XYRectangleLight>> lights() const;
 
 
         /**
@@ -98,7 +101,7 @@ class World {
          * Adds light to the lights vector
          * @param light PointLight pointer to add
          */
-        void addLight(std::shared_ptr<PointLight> light);
+        void addLight(std::shared_ptr<XYRectangleLight> light);
 
         /**
          * Goes through all the objects in the world to check if ray

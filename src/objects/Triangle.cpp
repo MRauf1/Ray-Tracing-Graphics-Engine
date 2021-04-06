@@ -72,3 +72,7 @@ void Triangle::makeAABB() {
     );
     this->aabb_ = std::make_shared<AABB>(min_point, max_point);
 }
+
+std::string Triangle::subclass() {
+    return "Triangle";
+}

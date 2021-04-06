@@ -63,6 +63,8 @@ class Object {
          */
         virtual void makeAABB() = 0;
 
+        virtual std::string subclass() = 0;
+
 };
 
 #endif

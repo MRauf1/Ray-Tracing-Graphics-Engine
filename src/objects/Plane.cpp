@@ -40,3 +40,7 @@ bool Plane::isHit(Ray& ray, double minT, double maxT) {
 void Plane::makeAABB() {
     this->aabb_ = nullptr;
 }
+
+std::string Plane::subclass() {
+    return "Plane";
+}

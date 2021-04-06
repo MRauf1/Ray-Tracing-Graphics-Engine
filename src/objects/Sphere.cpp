@@ -49,3 +49,7 @@ void Sphere::makeAABB() {
     Point3 max_point(this->center_[0] + this->radius_, this->center_[1] + this->radius_, this->center_[2] + this->radius_);
     this->aabb_ = std::make_shared<AABB>(min_point, max_point);
 }
+
+std::string Sphere::subclass() {
+    return "Sphere";
+}

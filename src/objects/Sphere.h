@@ -59,6 +59,8 @@ class Sphere : public Object {
          */
         void makeAABB() override;
 
+        std::string subclass() override;
+
 };
 
 #endif

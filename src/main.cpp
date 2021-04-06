@@ -6,6 +6,7 @@
 #include "objects/Plane.h"
 #include "objects/Sphere.h"
 #include "lights/PointLight.h"
+#include "lights/XYRectangleLight.h"
 #include "World.h"
 #include <limits>
 #include <chrono>
@@ -13,7 +14,7 @@
 int main() {
 
     // Background color
-    Color3 BACKGROUND(0.0, 0.0, 0.0);
+    Color3 BACKGROUND(0.0, 0.0, 1.0);
 
     // Image settings
     double ASPECT_RATIO = 1.0;
@@ -23,8 +24,8 @@ int main() {
 
     // Camera settings
     double VIEWPORT_HEIGHT = 2.0;
-    double FOCAL_LENGTH = 2.0;
-    Point3 POSITION(0.0, 0.0, 1.0);
+    double FOCAL_LENGTH = 1.0;
+    Point3 POSITION(0.0, 0.0, 0.0);
     Vec3 VIEW_DIR(0.0, 0.0, -1.0); // VIEW_DIR and UP_DIR can't be parallel
     Vec3 UP_DIR(0.0, 1.0, 0.0);
     Projection PROJECTION = PERSPECTIVE;
@@ -32,7 +33,7 @@ int main() {
     Camera CAMERA(ASPECT_RATIO, VIEWPORT_HEIGHT, FOCAL_LENGTH, POSITION, VIEW_DIR, UP_DIR, PROJECTION);
 
     // Number of samples for multijittered sampling
-    int SAMPLES = 16;
+    int SAMPLES = 4;
 
     // Objects in the scene
     Color3 colorPlane1(1.0, 0.0, 0.0);
@@ -49,13 +50,17 @@ int main() {
     std::shared_ptr<Object> plane3 = std::make_shared<Plane>(colorPlane3, positionPlane3, normalPlane3);
 
     Color3 colorSphere1(0.0, 1.0, 0.0);
-    Point3 positionSphere1(0.0, -0.7, -5.0);
-    double radiusSphere1 = 0.3;
+    Point3 positionSphere1(0.0, -0.4, -3.0);
+    double radiusSphere1 = 0.6;
     std::shared_ptr<Object> sphere1 = std::make_shared<Sphere>(colorSphere1, positionSphere1, radiusSphere1);
     Color3 colorSphere2(1.0, 0.5, 0.5);
-    Point3 positionSphere2(-1.0, -0.5, -3.0);
+    Point3 positionSphere2(-2.0, -0.5, -3.0);
     double radiusSphere2 = 0.5;
     std::shared_ptr<Object> sphere2 = std::make_shared<Sphere>(colorSphere2, positionSphere2, radiusSphere2);
+    Color3 colorSphere3(0.0, 1.0, 1.0);
+    Point3 positionSphere3(1.0, -0.3, -2.0);
+    double radiusSphere3 = 0.7;
+    std::shared_ptr<Object> sphere3 = std::make_shared<Sphere>(colorSphere3, positionSphere3, radiusSphere3);
 
     // Color3 colorTriangle1(1.0, 0.5, 0.5);
     // Point3 pointTriangle1_1(0.5, -1.0, -3.0);
@@ -69,25 +74,30 @@ int main() {
     // std::shared_ptr<Object> triangle2 = std::make_shared<Triangle>(colorTriangle1, pointTriangle2_1, pointTriangle2_2, pointTriangle2_3);
 
     // Lights in the scene
-    Point3 positionLight1(-5.0, 0.0, 0.0);
-    Color3 colorLight1(0.5, 0.5, 0.5);
-    std::shared_ptr<PointLight> pointLight1 = std::make_shared<PointLight>(positionLight1, colorLight1);
-    Point3 positionLight2(5.0, 0.0, 0.0);
-    Color3 colorLight2(0.5, 0.5, 0.5);
-    std::shared_ptr<PointLight> pointLight2 = std::make_shared<PointLight>(positionLight2, colorLight2);
-    Point3 positionLight3(0.0, 10.0, 0.0);
-    Color3 colorLight3(1.0, 1.0, 1.0);
-    std::shared_ptr<PointLight> pointLight3 = std::make_shared<PointLight>(positionLight3, colorLight3);
-
-    // std::vector<std::shared_ptr<Object>> objects;
-    // objects.push_back(sphere1);
-    // objects.push_back(sphere2);
-    // objects.push_back(triangle1);
-    // objects.push_back(triangle2);
-    // BVH bvh_objects(objects);
+    // Point3 positionLight1(-5.0, 0.0, 0.0);
+    // Color3 colorLight1(0.5, 0.5, 0.5);
+    // std::shared_ptr<PointLight> pointLight1 = std::make_shared<PointLight>(positionLight1, colorLight1);
+    // Point3 positionLight2(5.0, 0.0, 0.0);
+    // Color3 colorLight2(0.5, 0.5, 0.5);
+    // std::shared_ptr<PointLight> pointLight2 = std::make_shared<PointLight>(positionLight2, colorLight2);
+    // Point3 positionLight3(0.0, 10.0, 0.0);
+    // Color3 colorLight3(1.0, 1.0, 1.0);
+    // std::shared_ptr<PointLight> pointLight3 = std::make_shared<PointLight>(positionLight3, colorLight3);
+    Point3 lowerLeft4(-1.0, 0.0, -5.0);
+    Point3 upperRight4(1.0, 2.0, -5.0);
+    Color3 colorLight4(1.0, 1.0, 1.0);
+    std::shared_ptr<XYRectangleLight> xyRectangleLight1 = std::make_shared<XYRectangleLight>(lowerLeft4, upperRight4, colorLight4);
+    std::shared_ptr<Object> XYRectangle1 = std::make_shared<XYRectangle>(lowerLeft4, upperRight4, colorLight4);
 
     std::vector<std::shared_ptr<Object>> objects;
-    // int NUM_SPHERES = 10000;
+    objects.push_back(sphere1);
+    objects.push_back(sphere2);
+    // objects.push_back(triangle1);
+    // objects.push_back(triangle2);
+    BVH bvh_objects(objects);
+
+    // std::vector<std::shared_ptr<Object>> objects;
+    // int NUM_SPHERES = 100000;
     // int root = (int) (std::round(std::sqrt(NUM_SPHERES)));
     // Color3 color(1.0, 0.0, 0.0);
     // double radius = VIEWPORT_HEIGHT / root / 3;
@@ -99,37 +109,39 @@ int main() {
     //     }
     // }
 
-    Color3 color(1.0, 0.0, 0.0);
-    std::shared_ptr<Object> object = std::make_shared<Mesh>(color, "../meshes/cow.obj");
+    // Color3 color(1.0, 0.0, 0.0);
+    // std::shared_ptr<Object> object = std::make_shared<Mesh>(color, "../meshes/cow.obj");
     // std::cout << object->aabb()->min_point()[0] << "," << object->aabb()->min_point()[1] << "," << object->aabb()->min_point()[2] << std::endl;
     // std::cout << object->aabb()->max_point()[0] << "," << object->aabb()->max_point()[1] << "," << object->aabb()->max_point()[2] << std::endl;
-    objects.push_back(object);
-    BVH bvh_objects(objects);
+    // objects.push_back(object);
+    // BVH bvh_objects(objects);
 
-    Point3 positionLight4(0.0, 0.5, 3.0);
-    Color3 colorLight4(1.0, 1.0, 1.0);
-    std::shared_ptr<PointLight> pointLight4 = std::make_shared<PointLight>(positionLight4, colorLight4);
+    // Point3 positionLight4(0.0, 0.5, 3.0);
+    // Color3 colorLight4(1.0, 1.0, 1.0);
+    // std::shared_ptr<PointLight> pointLight4 = std::make_shared<PointLight>(positionLight4, colorLight4);
 
     // Create the world
     World world(BACKGROUND, IMAGE, CAMERA, SAMPLES, bvh_objects);
-    world.addObject(object);
+    // world.addObject(object);
     // for(int i = 0; i < objects.size(); i++) {
     //     world.addObject(objects[i]);
     // }
 
     // Add objects to the world
-    // world.addObject(plane1);
-    // world.addObject(plane2);
-    // world.addObject(plane3);
-    // world.addObject(sphere1);
-    // world.addObject(sphere2);
+    world.addObject(plane1);
+    world.addObject(plane2);
+    world.addObject(plane3);
+    world.addObject(sphere1);
+    world.addObject(sphere2);
+    world.addObject(sphere3);
+    world.addObject(XYRectangle1);
     // world.addObject(triangle1);
     // world.addObject(triangle2);
     // Add lights to the world
     // world.addLight(pointLight1);
     // world.addLight(pointLight2);
     // world.addLight(pointLight3);
-    world.addLight(pointLight4);
+    world.addLight(xyRectangleLight1);
 
     auto t1 = std::chrono::high_resolution_clock::now();
     // Render the scene

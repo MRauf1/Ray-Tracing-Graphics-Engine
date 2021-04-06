@@ -190,3 +190,7 @@ void Mesh::makeAABB() {
     Point3 max_point(maxX, maxY, maxZ);
     this->aabb_ = std::make_shared<AABB>(min_point, max_point);
 }
+
+std::string Mesh::subclass() {
+    return "Mesh";
+}
