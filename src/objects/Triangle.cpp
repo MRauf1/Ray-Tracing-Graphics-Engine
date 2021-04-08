@@ -4,8 +4,9 @@ Triangle::Triangle() {
     this->makeAABB();
 }
 
-Triangle::Triangle(Color3 color, Point3 point1, Point3 point2, Point3 point3) {
+Triangle::Triangle(Color3 color, Material material, Point3 point1, Point3 point2, Point3 point3) {
     this->color_ = color;
+    this->material_ = material;
     this->point1_ = point1;
     this->point2_ = point2;
     this->point3_ = point3;

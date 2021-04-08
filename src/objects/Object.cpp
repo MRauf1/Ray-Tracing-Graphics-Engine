@@ -12,6 +12,10 @@ std::shared_ptr<AABB> Object::aabb() const {
     return this->aabb_;
 }
 
+Material Object::material() const {
+    return this->material_;
+}
+
 bool Object::operator<(const Object& object) const {
     double curr = (this->aabb_->max_point()[0] - this->aabb_->min_point()[0]) / 2;
     double other = (object.aabb()->max_point()[0] - object.aabb()->min_point()[0]) / 2;

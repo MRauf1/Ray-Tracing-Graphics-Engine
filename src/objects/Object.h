@@ -4,6 +4,7 @@
 #include "../math/Vec3.h"
 #include "../math/Ray.h"
 #include "../data_structures/AABB.h"
+#include "Material.h"
 #include "HitInfo.h"
 #include <memory>
 #include <iostream>
@@ -15,6 +16,7 @@ class Object {
         Color3 color_;
         HitInfo hitInfo_;
         std::shared_ptr<AABB> aabb_;
+        Material material_;
 
 
     public:
@@ -36,6 +38,8 @@ class Object {
          * @return Pointer to the AABB of the object
          */
         std::shared_ptr<AABB> aabb() const;
+
+        Material material() const;
 
         /**
          * < operator for Object
@@ -63,6 +67,10 @@ class Object {
          */
         virtual void makeAABB() = 0;
 
+        /**
+         * Getter for which subclass the object is
+         * @return String representing the subclass name
+         */
         virtual std::string subclass() = 0;
 
 };

@@ -35,32 +35,36 @@ int main() {
     // Number of samples for multijittered sampling
     int SAMPLES = 4;
 
+    Material MATERIAL_OPAQUE = OPAQUE;
+    Material MATERIAL_TRANSPARENT = TRANSPARENT;
+    Material MATERIAL_MIRROR = MIRROR;
+
     // Objects in the scene
     Color3 colorPlane1(1.0, 0.0, 0.0);
     Point3 positionPlane1(0.0, -1.0, 0.0);
     Vec3 normalPlane1(0.0, 1.0, 0.0);
-    std::shared_ptr<Object> plane1 = std::make_shared<Plane>(colorPlane1, positionPlane1, normalPlane1);
+    std::shared_ptr<Object> plane1 = std::make_shared<Plane>(colorPlane1, MATERIAL_OPAQUE, positionPlane1, normalPlane1);
     Color3 colorPlane2(0.0, 1.0, 0.0);
     Point3 positionPlane2(10.0, 0.0, -10.0);
     Vec3 normalPlane2(-0.5, 0.0, 0.5);
-    std::shared_ptr<Object> plane2 = std::make_shared<Plane>(colorPlane2, positionPlane2, normalPlane2);
+    std::shared_ptr<Object> plane2 = std::make_shared<Plane>(colorPlane2, MATERIAL_OPAQUE, positionPlane2, normalPlane2);
     Color3 colorPlane3(0.0, 0.0, 1.0);
     Point3 positionPlane3(-10.0, 0.0, -10.0);
     Vec3 normalPlane3(0.5, 0.0, 0.5);
-    std::shared_ptr<Object> plane3 = std::make_shared<Plane>(colorPlane3, positionPlane3, normalPlane3);
+    std::shared_ptr<Object> plane3 = std::make_shared<Plane>(colorPlane3, MATERIAL_OPAQUE, positionPlane3, normalPlane3);
 
     Color3 colorSphere1(0.0, 1.0, 0.0);
     Point3 positionSphere1(0.0, -0.4, -3.0);
     double radiusSphere1 = 0.6;
-    std::shared_ptr<Object> sphere1 = std::make_shared<Sphere>(colorSphere1, positionSphere1, radiusSphere1);
+    std::shared_ptr<Object> sphere1 = std::make_shared<Sphere>(colorSphere1, MATERIAL_MIRROR, positionSphere1, radiusSphere1);
     Color3 colorSphere2(1.0, 0.5, 0.5);
     Point3 positionSphere2(-2.0, -0.5, -3.0);
     double radiusSphere2 = 0.5;
-    std::shared_ptr<Object> sphere2 = std::make_shared<Sphere>(colorSphere2, positionSphere2, radiusSphere2);
+    std::shared_ptr<Object> sphere2 = std::make_shared<Sphere>(colorSphere2, MATERIAL_OPAQUE, positionSphere2, radiusSphere2);
     Color3 colorSphere3(0.0, 1.0, 1.0);
     Point3 positionSphere3(1.0, -0.3, -2.0);
     double radiusSphere3 = 0.7;
-    std::shared_ptr<Object> sphere3 = std::make_shared<Sphere>(colorSphere3, positionSphere3, radiusSphere3);
+    std::shared_ptr<Object> sphere3 = std::make_shared<Sphere>(colorSphere3, MATERIAL_TRANSPARENT, positionSphere3, radiusSphere3);
 
     // Color3 colorTriangle1(1.0, 0.5, 0.5);
     // Point3 pointTriangle1_1(0.5, -1.0, -3.0);
@@ -87,7 +91,7 @@ int main() {
     Point3 upperRight4(1.0, 2.0, -5.0);
     Color3 colorLight4(1.0, 1.0, 1.0);
     std::shared_ptr<XYRectangleLight> xyRectangleLight1 = std::make_shared<XYRectangleLight>(lowerLeft4, upperRight4, colorLight4);
-    std::shared_ptr<Object> XYRectangle1 = std::make_shared<XYRectangle>(lowerLeft4, upperRight4, colorLight4);
+    std::shared_ptr<Object> XYRectangle1 = std::make_shared<XYRectangle>(colorLight4, MATERIAL_OPAQUE, lowerLeft4, upperRight4);
 
     std::vector<std::shared_ptr<Object>> objects;
     objects.push_back(sphere1);
@@ -134,7 +138,7 @@ int main() {
     world.addObject(sphere1);
     world.addObject(sphere2);
     world.addObject(sphere3);
-    world.addObject(XYRectangle1);
+    // world.addObject(XYRectangle1);
     // world.addObject(triangle1);
     // world.addObject(triangle2);
     // Add lights to the world
@@ -158,18 +162,3 @@ int main() {
     std::cerr << ms_double.count() << "ms" << "\n";
 
 }
-
-// 1,000 spheres:
-// BVH building: 11.94 ms
-// BVH runtime: 2187.82 ms
-// Non-BVH runtime: 28761.4 ms
-
-// 10,000 spheres:
-// BVH building: 154.07 ms
-// BVH runtime: 4803.13 ms
-// Non-BVH runtime: 366637ms
-
-// 100,000 spheres:
-// BVH building: 1913.94 ms
-// BVH runtime: 7706.54 ms
-// Non-BVH runtime: Too long

@@ -27,7 +27,7 @@ class Triangle : public Object {
          * @param point2 2nd vertex of the Triangle
          * @param point3 3rd vertex of the Triangle
          */
-        Triangle(Color3 color, Point3 point1, Point3 point2, Point3 point3);
+        Triangle(Color3 color, Material material, Point3 point1, Point3 point2, Point3 point3);
 
         /**
          * Getter for point1
@@ -67,6 +67,10 @@ class Triangle : public Object {
          */
         void makeAABB() override;
 
+        /**
+         * Getter for which subclass the object is
+         * @return String representing the subclass name
+         */
         std::string subclass() override;
 
 };

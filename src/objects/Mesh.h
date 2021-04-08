@@ -35,7 +35,7 @@ class Mesh : public Object {
          * @param color     Color of the mesh
          * @param file_name File name of the mesh in .obj format
          */
-        Mesh(Color3 color, std::string file_name);
+        Mesh(Color3 color, Material material, std::string file_name);
 
         /**
          * Getter for objects
@@ -75,6 +75,10 @@ class Mesh : public Object {
          */
         void makeAABB() override;
 
+        /**
+         * Getter for which subclass the object is
+         * @return String representing the subclass name
+         */
         std::string subclass() override;
 
 };

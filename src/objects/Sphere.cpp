@@ -7,8 +7,9 @@ Sphere::Sphere() {
     this->makeAABB();
 }
 
-Sphere::Sphere(Color3 color, Point3 center, double radius) {
+Sphere::Sphere(Color3 color, Material material, Point3 center, double radius) {
     this->color_ = color;
+    this->material_ = material;
     this->center_ = center;
     this->radius_ = radius;
     this->makeAABB();

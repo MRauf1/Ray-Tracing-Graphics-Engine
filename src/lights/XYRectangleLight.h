@@ -22,18 +22,23 @@ class XYRectangleLight {
         XYRectangleLight();
 
         /**
-         * Parameterized PointLight constructor
-         * @param position Position of the point light
-         * @param color    Color of the point light
+         * Parameterized XYRectangleLight constructor
+         * @param lower_left  Lower left point of the rectangle light
+         * @param upper_right Upper right point of the rectangle light
+         * @param color       Color of the rectangle light
          */
         XYRectangleLight(Point3 lower_left, Point3 upper_right, Color3 color);
 
         /**
-         * Getter for position
-         * @return Position of the point light
+         * Getter for lower_left
+         * @return Lower left point of the rectangle light
          */
         Point3 lower_left() const;
 
+        /**
+         * Getter for upper_right
+         * @return Upper right point of the rectangle light
+         */
         Point3 upper_right() const;
 
         /**

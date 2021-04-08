@@ -125,12 +125,22 @@ class World {
          * Additionally, cast shadow rays to all other objects to check if a
          * point is in shadow
          * If it is, apply a hard shadow
+         * @param  Ray       Ray to check the hit for
          * @param  hitObject Object that was hit
          * @param  minT      Minimum t for the hit
          * @param  maxT      Maximum t for the hit
          * @return           Adjusted color of the object
          */
-        Color3 litColor(std::shared_ptr<Object> hitObject, double minT, double maxT);
+        Color3 litColor(Ray& ray, std::shared_ptr<Object> hitObject, double minT, double maxT);
+
+        /**
+         * Helper function for refracting an incoming ray
+         * @param  direction        Direction vector of the incoming ray
+         * @param  normal           Normal of the object being hit
+         * @param  refraction_index Refraction index of the object being hit
+         * @return                  Refracted direction vector of the ray
+         */
+        Vec3 refract(Vec3 direction, Vec3 normal, double refraction_index);
 
         /**
          * Renders the world

@@ -25,7 +25,7 @@ class Sphere : public Object {
          * @param center Center of the Sphere
          * @param radius Radius of the Sphere
          */
-        Sphere(Color3 color, Point3 center, double radius);
+        Sphere(Color3 color, Material material, Point3 center, double radius);
 
         /**
          * Getter for center
@@ -59,6 +59,10 @@ class Sphere : public Object {
          */
         void makeAABB() override;
 
+        /**
+         * Getter for which subclass the object is
+         * @return String representing the subclass name
+         */
         std::string subclass() override;
 
 };

@@ -7,8 +7,9 @@ Plane::Plane() {
     this->makeAABB();
 }
 
-Plane::Plane(Color3 color, Point3 position, Vec3 normal) {
+Plane::Plane(Color3 color, Material material, Point3 position, Vec3 normal) {
     this->color_ = color;
+    this->material_ = material;
     this->position_ = position;
     this->normal_ = normal;
     this->makeAABB();

@@ -24,7 +24,7 @@ class Plane : public Object {
          * @param position Position of the plane
          * @param normal   Normal of the plane
          */
-        Plane(Color3 color, Point3 position, Vec3 normal);
+        Plane(Color3 color, Material material, Point3 position, Vec3 normal);
 
         /**
          * Getter for position
@@ -58,6 +58,10 @@ class Plane : public Object {
          */
         void makeAABB() override;
 
+        /**
+         * Getter for which subclass the object is
+         * @return String representing the subclass name
+         */
         std::string subclass() override;
 
 };

@@ -6,8 +6,9 @@ Mesh::Mesh() {
     this->makeAABB();
 }
 
-Mesh::Mesh(Color3 color, std::string file_name) {
+Mesh::Mesh(Color3 color, Material material, std::string file_name) {
     this->color_ = color;
+    this->material_ = material;
     this->readMesh(file_name);
     this->bvh_ = BVH(this->objects_);
     this->calculateVertexNormals();
@@ -84,7 +85,7 @@ void Mesh::readMesh(std::string file_name) {
                         Point3 v1(this->vertices_[face[0] - 1].x(), this->vertices_[face[0] - 1].y(), this->vertices_[face[0] - 1].z(), face[0] - 1);
                         Point3 v2(this->vertices_[face[1] - 1].x(), this->vertices_[face[1] - 1].y(), this->vertices_[face[1] - 1].z(), face[1] - 1);
                         Point3 v3(this->vertices_[face[2] - 1].x(), this->vertices_[face[2] - 1].y(), this->vertices_[face[2] - 1].z(), face[2] - 1);
-                        std::shared_ptr<Object> temp = std::make_shared<Triangle>(this->color_, v1, v2, v3);
+                        std::shared_ptr<Object> temp = std::make_shared<Triangle>(this->color_, this->material_, v1, v2, v3);
                         // std::shared_ptr<Object> temp = std::make_shared<Triangle>(this->color_, this->vertices_[face[0] - 1], this->vertices_[face[1] - 1], this->vertices_[face[2] - 1]);
                         // std::cout << face[2] - 1 << std::endl;
                         // this->vertices_[face[0] - 1].index(face[0] - 1);
